@@ -25,17 +25,12 @@ public class User implements UserDetails {
     @Column(name = "id", unique = true)
     private Long id;
 
-    private String firstName;
-
-    private String lastName;
-
-    private String email;
-
     private String username;
 
     private String password;
 
-    private String image;
+    private String email;
+
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(

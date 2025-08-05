@@ -5,6 +5,7 @@ import br.com.vittalis.sistema.repository.ClienteRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,19 @@ public class ClienteController {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @GetMapping
+    public String listagem(Model model) {
+
+        List<Cliente> listaClientes = clienteRepository.findAll();
+
+        model.addAttribute("clientes", listaClientes);
+
+        return "pages/cliente/listagem-cliente";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -37,6 +51,10 @@ public class ClienteController {
         if(result.hasErrors()) {
             return "redirect:/cliente/cadastro";
         }
+
+        cliente.getUser().setPassword(bCryptPasswordEncoder.encode(cliente.getSenha()));
+        cliente.getUser().setUsername(cliente.getEmail());
+
         clienteRepository.save(cliente);
         return "redirect:/login";
     }
@@ -60,7 +78,7 @@ public class ClienteController {
     public String alterar(@PathVariable("id") Long id, Model model) {
         Cliente cliente = clienteRepository.findById(id).get();
         model.addAttribute("cliente", cliente);
-        return "pages/Cliente/alterar-cliente";
+        return "pages/cliente/alterar-cliente";
     }
 
     @GetMapping("/excluir/{id}")
@@ -69,31 +87,24 @@ public class ClienteController {
         return "redirect:/cliente";
     }
 
-    @GetMapping
-    public String listagem(Model model) {
-
-        List<Cliente> listaClientes = clienteRepository.findAll();
-
-        model.addAttribute("clientes", listaClientes);
-
-        return "pages/Cliente/listagem-cliente";
-    }
 
     @GetMapping("/cadastro")
     public String cadastro(Model model) {
         Cliente cliente = new Cliente();
         model.addAttribute("cliente", cliente);
-        return "pages/Cliente/cadastro-cliente";
+        return "pages/cliente/cadastro-cliente";
     }
+
+
 
     @PostMapping("/buscar")
     public String buscar(Model model, @Param("nome") String nome){
         if(nome == null ){
-            return "pages/Cliente/listagem-cliente";
+            return "pages/cliente/listagem-cliente";
         }
 
         List<Cliente> clientesBuscados = clienteRepository.findClienteByNomeCompletoContaining(nome);
         model.addAttribute("clientes", clientesBuscados);
-        return "pages/Cliente/listagem-cliente";
+        return "pages/cliente/listagem-cliente";
     }
 }

@@ -56,9 +56,11 @@
                     </div>
                 </div>
                 <br>
-                <table class="table table-striped table-hover">
+                <table id="basic-datatables"
+                        class="table table-striped table-hover">
                     <thead style="margin-top: 20px;">
                     <tr>
+                        <th>Id</th>
                         <th>Nome</th>
                         <th>Data de Nascimento</th>
                         <th>E-mail</th>
@@ -76,6 +78,7 @@
 
                     <!-- Recurso do Themyleaf. Percorre a lista de clientes e preenche a tabela -->
                     <tr th:each="cliente : ${clientes}">
+                        <td th:text="${cliente.id}"> Id </td>
                         <td><span th:text="${cliente.nomeCompleto}"> Nome </span></td>
                         <td><span
                                 th:text="${#dates.format(cliente.dataNascimento, 'dd/MM/yyyy')}"> Data de Nascimento </span>
@@ -110,43 +113,8 @@
 
 </div>
 
-<footer class="footer-section">
-    <div class="container">
-        <div class="footer-text">
-            <div class="row"  style="margin-left: 500px">
-                <div class="col-lg-4">
-                    <div class="ft-about" style="width: 80%">
-                        <div class="logo" >
-                            <a href="#" >
-                                <img src="img/logo1.png" width="100px" height="70px" alt="">
-
-                            </a>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="copyright-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7">
-                    <ul>
-                        <li><a href="#">Contato</a></li>
-                        <li><a href="#">Termos de Uso</a></li>
-                        <li><a href="#">Privacidade</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-5">
-                    <div class="co-text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        VITTALIS &copy;<script>document.write(new Date().getFullYear());</script> Todos os direitos reservados
-                    </div>
-                </div>
-            </div>
-        </div>
-</footer>
+<div th:replace="fragments/footer :: footer"></div>
+<div th:replace="fragments/datatables :: datatables"></div>
 
 
 </body>

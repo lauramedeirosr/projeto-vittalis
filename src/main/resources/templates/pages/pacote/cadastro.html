@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="pt-br">
+<head>
+    <link rel="icon" type="imagem/png" th:href="@{/img/sub-logo1.png}">
+    <link rel="stylesheet" th:href="@{/css/cadastro.css}"/>
+    <th:block th:replace="fragments/config :: config"></th:block>
+    <title>Formulário de Cadastro de Pacotes</title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+<main>
+    <h2 class="formulario d-flex justify-content-center mb-4">Formulário de Cadastro de Pacotes</h2>
+    <br>
+    <div class="container mx-auto d-block">
+        <form class="registration-form" th:action="@{/pacote/salvar}" th:object="${pacote}" method="post" novalidate>
+
+
+            <!-- Nome Completo -->
+            <div class="form-group row mb-4">
+                <h3 class="dados">Dados do Pacote</h3>
+                <br>
+                <div class="col-sm-12">
+                    <small class="nomeInput form-text text-muted d-block mt-1">Nome do Destino</small>
+                    <input type="text" class="form-control" id="nomeDestino"
+                           name="nomeDestino" placeholder="EX.: São Paulo para Maldivas" required>
+                </div>
+            </div>
+
+
+            <div class="form-group row mb-4">
+                <div class="col-sm-12">
+                    <small class="nomeInput form-text text-muted d-block mt-1">Preço</small>
+                    <input type="text"  class="form-control" id="preco" name="preco"
+                           placeholder="$" required/>
+                </div>
+            </div>
+
+            <!-- Número de Telefone -->
+            <div class="form-group row mb-4">
+                <div class="col-sm-12">
+                    <small class=" nomeInput form-text text-muted d-block mt-1">Descrição do Pacote</small>
+                    <textarea id="w3review" name="w3review" rows="2" cols="148">Descrição...</textarea>
+                </div>
+            </div>
+
+            <div class="row mb-2">
+                <div class="col-md-6 mb-2 mb-md-0">
+                    <small class=" nomeInput form-text text-muted d-block mt-1">Data limite da inscição</small>
+                    <input type="date"  class="form-control" id="data_limite" placeholder="dd/mm/aaaa" required/>
+                </div>
+
+                <div class="col-md-6">
+                    <small class=" nomeInput form-text text-muted d-block mt-1">Data da Expedição</small>
+                    <input type="date"  class="form-control" id="dataExpedicao" placeholder="dd/mm/aaaa" required/>
+
+                </div>
+            </div>
+
+            <br>
+            <!-- Navios -->
+            <h3 class="dados">Escolha do Navio</h3>
+            <div class="form-group row mb-4">
+
+                <div class="row mb-2">
+                    <div class="col-md-6 mb-2 mb-md-0">
+                        <small class="nomeInput form-text text-muted d-block mt-1">Navios</small>
+                        <select class="navios" name="lista_navio">
+                            <option>Navio 1</option>
+                            <option>Navio 2</option>
+                            <option>Navio 3</option>
+                            <option selected="yes">Nenhum selecionado</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <small class="nomeInput form-text text-muted d-block mt-1">Vagas disponiveis</small>
+                        <input type="text" placeholder="0" class="form-control" id="vagasDisponiveis" required>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group row mt-4 col-sm-12">
+                    <div class="divBotoes col-sm-12 d-flex justify-content-center">
+                        <div class="text-center">
+                            <button type="submit" class="botaoCadastrar">Salvar</button>
+                        </div>
+                        <div class="text-center">
+                            <button type="reset" class="botaoCadastrar">Limpar</button>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="botaoCadastrar" onclick="window.location.href='/home'">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+
+        </form>
+    </div>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+
+<!-- Adicione este script no final do body -->
+<script>
+    const cpfInput = document.getElementById('cpf');
+    const telefoneInput = document.getElementById('telefone');
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const cepInput = document.getElementById('cep');
+        const ruaInput = document.getElementById('rua');
+        const bairroInput = document.getElementById('bairro');
+        const cidadeInput = document.getElementById('cidade');
+        const ufInput = document.getElementById('uf');
+        const numeroInput = document.getElementById('numero');
+        const cpfInput = document.getElementById('cpf');
+        const telefoneInput = document.getElementById('telefone');
+
+        // VIA CEP Script
+        if (cepInput) {
+            cepInput.addEventListener('blur', function () {
+                const cepValue = this.value.replace(/\D/g, ''); // Remove non-digits
+
+                if (cepValue.length === 8) {
+                    ruaInput.value = '...';
+                    bairroInput.value = '...';
+                    cidadeInput.value = '...';
+                    ufInput.value = '...';
+
+                    fetch(`https://viacep.com.br/ws/${cepValue}/json/`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Erro na requisição: ' + response.status);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.erro) {
+                                alert('CEP não encontrado.');
+                                ruaInput.value = '';
+                                bairroInput.value = '';
+                                cidadeInput.value = '';
+                                ufInput.value = '';
+                                cepInput.focus();
+                            } else {
+                                ruaInput.value = data.logradouro || '';
+                                bairroInput.value = data.bairro || '';
+                                cidadeInput.value = data.localidade || '';
+                                ufInput.value = data.uf || '';
+
+                                if (data.logradouro) {
+                                    numeroInput.focus();
+                                } else {
+                                    ruaInput.focus();
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Falha ao buscar CEP:', error);
+                            alert('Não foi possível consultar o CEP. Verifique sua conexão ou tente novamente.');
+                            ruaInput.value = '';
+                            bairroInput.value = '';
+                            cidadeInput.value = '';
+                            ufInput.value = '';
+                        });
+                } else if (cepValue.length > 0) {
+                    alert('CEP inválido. Deve conter 8 dígitos.');
+                    ruaInput.value = '';
+                    bairroInput.value = '';
+                    cidadeInput.value = '';
+                    ufInput.value = '';
+                } else {
+                    ruaInput.value = '';
+                    bairroInput.value = '';
+                    cidadeInput.value = '';
+                    ufInput.value = '';
+                }
+            });
+        }
+
+        // Máscara para CEP (formato XXXXX-XXX)
+        if (cepInput) {
+            cepInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 8) {
+                    value = value.substring(0, 8);
+                }
+                if (value.length > 5) {
+                    value = value.substring(0, 5) + '-' + value.substring(5);
+                }
+                e.target.value = value;
+            });
+        }
+
+        // Máscara para CPF (formato XXX.XXX.XXX-XX)
+        if (cpfInput) {
+            cpfInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+                value = value.substring(0, 11); // Limita a 11 dígitos
+
+                let maskedValue = '';
+                if (value.length > 0) {
+                    maskedValue = value.substring(0, Math.min(3, value.length));
+                }
+                if (value.length > 3) {
+                    maskedValue += '.' + value.substring(3, Math.min(6, value.length));
+                }
+                if (value.length > 6) {
+                    maskedValue += '.' + value.substring(6, Math.min(9, value.length));
+                }
+                if (value.length > 9) {
+                    maskedValue += '-' + value.substring(9, Math.min(11, value.length));
+                }
+                e.target.value = maskedValue;
+            });
+        }
+
+        // Máscara para Telefone (formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX)
+        if (telefoneInput) {
+            telefoneInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, "");
+                value = value.substring(0, 11); // Limita a 11 dígitos (para celular com 9 dígitos + DDD)
+
+                if (value.length === 0) {
+                    e.target.value = '';
+                    return;
+                }
+
+                if (value.length <= 2) {
+                    e.target.value = '(' + value;
+                } else if (value.length <= 6) { // Para (XX) XXXX
+                    e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
+                } else if (value.length <= 10) { // Para (XX) XXXX-XXXX (telefone fixo)
+                    e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2, 6) + '-' + value.substring(6);
+                } else { // Para (XX) XXXXX-XXXX (celular)
+                    e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2, 7) + '-' + value.substring(7);
+                }
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

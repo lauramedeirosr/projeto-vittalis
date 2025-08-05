@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="pacotes">
+    <section class="hp-room-section">
+        <div class="section-title" style="text-align: center; padding: 5px; background-color: #5a172d; ">
+            <h1 style="color: white; padding: 18px; margin: auto" id="link5">Pacotes</h1>
+        </div>
+        <div class="container-fluid" style="margin-top: 30px">
+            <div class="hp-room-items">
+               <div class="row">
+
+                <div th:each="pacote : ${pacotes}" class="hp-room-item">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="hp-room-item set-bg" data-setbg="/img/room/room-b1.jpg">
+                            <div class="hr-text">
+                                <h3><span th:text="${pacote.nomeDestino}"></span></h3>
+                                <h2><span th:text="${pacote.preco}"></span></h2>
+                                <h2><span> 10 dias</span></h2>
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td class="r-o">Hospede:</td>
+                                        <td>1 pessoa</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="r-o">Quarto:</td>
+                                        <td>King completo</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="r-o">Serviços:</td>
+                                        <td>Wifi, Televisão, Restaurante, Academia e muito mais</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <a href="#" class="primary-btn">Mais detalhes</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

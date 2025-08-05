@@ -56,4 +56,7 @@ public class Pessoa {
 
     //@NotEmpty(message = "O campo 'Senha' deve ser preenchido")
     private String senha;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private User user = new User();
 }
