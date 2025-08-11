@@ -49,7 +49,7 @@ public class ClienteController {
             , RedirectAttributes attributes
     ) {
         if(result.hasErrors()) {
-            return "redirect:/cliente/cadastro";
+            return "pages/cliente/cadastro-cliente";
         }
 
         cliente.getUser().setPassword(bCryptPasswordEncoder.encode(cliente.getSenha()));
@@ -66,7 +66,7 @@ public class ClienteController {
             , RedirectAttributes attributes
     ) {
         if(result.hasErrors()) {
-            return "redirect:/cliente/alterar/" + cliente.getId();
+            return "pages/cliente/alterar-cliente" + cliente.getId();
         }
         clienteRepository.save(cliente);
         return "redirect:/cliente";

@@ -51,7 +51,7 @@ public class Pessoa {
     @OneToOne(cascade = CascadeType.ALL)
     private Endereco endereco;
 
-
+    @NotEmpty(message = "O campo 'Telefone' deve ser preenchido")
     private String telefone;
 
     //@NotEmpty(message = "O campo 'Senha' deve ser preenchido")

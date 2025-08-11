@@ -3,11 +3,7 @@
   Description: Sona Hotel Html Template
   Author: Colorlib
   Author URI: https://colorlib.com
-  Version: 1.0
-  Created: Colorlib
-******************************************************************/
-
-/*------------------------------------------------------------------
+  Version:--------------------------------------------------
 [Table of contents]
 
 1.  Template default CSS
@@ -107,12 +103,12 @@ ul, ol {
 .divBotaoLogin{
 	font-size: 16px;
 	color: #19191a;
-	margin-right: 42px;
 	font-weight: 500;
 	display: inline-block;
-	padding: 27px 0;
-	position: relative;
-	margin-left: 80px;
+	padding: 25px 0;
+	margin-top: -10px;
+	margin-left: 20px;
+
 }
 .botaoLogin{
 	font-size: 16px;
@@ -425,10 +421,11 @@ ul, ol {
 	display: inline-block;
 }
 .menu-item .nav-menu {
-	text-align: right;
+	text-align: left;
+	display: flex;
 }
 .menu-item .nav-menu .mainmenu {
-	display: inline-block;
+	display: flex;
 }
 .menu-item .nav-menu .mainmenu li {
 	list-style: none;
@@ -489,7 +486,7 @@ ul, ol {
 }
 .menu-item .nav-menu .mainmenu li .dropdown li {
 	list-style: none;
-	display: block;
+	display: flex;
 }
 .menu-item .nav-menu .mainmenu li .dropdown li a {
 	font-size: 16px;
@@ -1017,8 +1014,6 @@ padding: 20px;
 	color: #707079;
 	text-align: right;
 }
-
-.footer-section2
 
 /* --------------------------------- Other Pages Styles ----------------------------------- */
 
@@ -2387,6 +2382,12 @@ padding: 20px;
 
 .container_listagem_cliente{
 	flex:1
+}
+
+.fas fa-dumbbell{
+	width: 50px;
+
+
 }
 
 
