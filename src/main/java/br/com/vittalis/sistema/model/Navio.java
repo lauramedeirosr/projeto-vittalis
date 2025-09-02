@@ -1,13 +1,13 @@
 package br.com.vittalis.sistema.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -18,7 +18,7 @@ public class Navio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
 
     @NotEmpty(message = "O campo 'Nome do navio' deve ser preenchido")
@@ -28,7 +28,14 @@ public class Navio {
     private String descricao;
 
 
-    private String quarto1;
-    private String quarto2;
-    private String quarto3;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "navio_id")
+    private List<Quarto> quartos = new ArrayList<Quarto>();
+
+
+    public void addQuarto(Quarto quarto){
+        this.quartos.add(quarto);
+    }
+
 }

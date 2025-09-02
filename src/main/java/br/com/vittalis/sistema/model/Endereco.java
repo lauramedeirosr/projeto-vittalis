@@ -24,7 +24,6 @@ import lombok.NoArgsConstructor;
         @NotEmpty(message = "O campo 'Rua' deve ser preenchido")
         private String rua;
 
-        @NotEmpty(message = "O campo 'Complemento' deve ser preenchido")
         private String complemento;
 
         @NotEmpty(message = "O campo 'Bairro' deve ser preenchido")

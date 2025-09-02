@@ -1,16 +1,15 @@
 package br.com.vittalis.sistema.controller;
 
 import br.com.vittalis.sistema.model.Navio;
+import br.com.vittalis.sistema.model.Quarto;
 import br.com.vittalis.sistema.repository.NavioRepository;
+import br.com.vittalis.sistema.repository.QuartoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -22,6 +21,8 @@ public class NavioController {
 
     @Autowired
     private NavioRepository navioRepository;
+    @Autowired
+    private QuartoRepository quartoRepository;
 
 
     @GetMapping
@@ -57,15 +58,11 @@ public class NavioController {
     }
 
 
-    @GetMapping("/editar/{id}")
-    public String editar(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
-        Optional<Navio> navioOptional = navioRepository.findById(id);
-        if (navioOptional.isEmpty()) {
-            attributes.addFlashAttribute("mensagemErro", "Navio não encontrado para edição!");
-            return "redirect:/navio";
-        }
-        model.addAttribute("navio", navioOptional.get());
-        return "pages/navio/cadastro";
+    @GetMapping("/alterar/{id}")
+    public String alterar(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
+        Navio navioOptional = navioRepository.findById(id).get();
+        model.addAttribute("navio", navioOptional);
+        return "pages/navio/alterar";
     }
 
 
@@ -87,7 +84,7 @@ public class NavioController {
         return "redirect:/navio";
     }
 
-    @PostMapping("/excluir/{id}")
+    @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable("id") Long id, RedirectAttributes attributes) {
         if (navioRepository.existsById(id)) {
             navioRepository.deleteById(id);
@@ -96,5 +93,21 @@ public class NavioController {
             attributes.addFlashAttribute("mensagemErro", "Navio não encontrado para exclusão!");
         }
         return "redirect:/navio";
+    }
+
+    @PostMapping("/addQuarto")
+    public String addQuarto(Navio navio, Model model) {
+        navio.addQuarto(new Quarto());
+        List<Quarto> listaQuartos = quartoRepository.findAll();
+        model.addAttribute("quartos", listaQuartos);
+        return "pages/navio/cadastro :: quartos";
+    }
+
+    @PostMapping("/removerQuarto")
+    public String removerQuarto(Navio navio, @RequestParam("rmQuarto") int index, Model model) {
+        navio.getQuartos().remove(index);
+        List<Quarto> listaQuartos = quartoRepository.findAll();
+        model.addAttribute("quartos", listaQuartos);
+        return "pages/navio/cadastro :: quartos";
     }
 }

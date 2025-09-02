@@ -2,6 +2,7 @@ package br.com.vittalis.sistema.controller;
 
 import br.com.vittalis.sistema.model.Cliente;
 import br.com.vittalis.sistema.repository.ClienteRepository;
+import br.com.vittalis.sistema.repository.RoleRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -26,6 +27,9 @@ public class ClienteController {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping
     public String listagem(Model model) {
@@ -54,6 +58,7 @@ public class ClienteController {
 
         cliente.getUser().setPassword(bCryptPasswordEncoder.encode(cliente.getSenha()));
         cliente.getUser().setUsername(cliente.getEmail());
+        cliente.addRole(roleRepository);
 
         clienteRepository.save(cliente);
         return "redirect:/login";

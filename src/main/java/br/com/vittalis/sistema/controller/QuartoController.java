@@ -57,7 +57,7 @@ public class QuartoController {
     public String alterar(@PathVariable("id") Long id, Model model) {
         Quarto quarto = quartoRepository.findById(id).get();
         model.addAttribute("quarto", quarto);
-        return "pages/quarto/alterar-quarto";
+        return "pages/quarto/alterar";
     }
 
     @GetMapping("/excluir/{id}")
