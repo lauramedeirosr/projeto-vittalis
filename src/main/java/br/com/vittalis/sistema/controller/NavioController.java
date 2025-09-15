@@ -65,7 +65,6 @@ public class NavioController {
         return "pages/navio/alterar";
     }
 
-
     @PostMapping("/atualizar")
     public String atualizar(
             @Valid Navio navio,
@@ -83,6 +82,7 @@ public class NavioController {
         attributes.addFlashAttribute("mensagemSucesso", "Navio atualizado com sucesso!");
         return "redirect:/navio";
     }
+
 
     @GetMapping("/excluir/{id}")
     public String excluir(@PathVariable("id") Long id, RedirectAttributes attributes) {
@@ -103,6 +103,7 @@ public class NavioController {
         return "pages/navio/cadastro :: quartos";
     }
 
+
     @PostMapping("/removerQuarto")
     public String removerQuarto(Navio navio, @RequestParam("rmQuarto") int index, Model model) {
         navio.getQuartos().remove(index);
@@ -110,4 +111,6 @@ public class NavioController {
         model.addAttribute("quartos", listaQuartos);
         return "pages/navio/cadastro :: quartos";
     }
+
+
 }

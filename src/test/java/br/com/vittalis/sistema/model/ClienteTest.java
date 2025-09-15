@@ -1,5 +1,6 @@
 package br.com.vittalis.sistema.model;
 
+import br.com.vittalis.sistema.model.Cliente;
 import br.com.vittalis.sistema.repository.ClienteRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

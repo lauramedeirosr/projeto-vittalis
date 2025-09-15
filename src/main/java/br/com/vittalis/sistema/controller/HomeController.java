@@ -25,4 +25,10 @@ public class HomeController {
     public String contato() {
         return "home/contato";
     }
+
+    @GetMapping("/pacote")
+        public String pacoteInfo(){
+        return "home/info-pacote";
+    }
+
 }
