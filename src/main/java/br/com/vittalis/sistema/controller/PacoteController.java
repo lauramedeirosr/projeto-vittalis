@@ -58,7 +58,7 @@ public class PacoteController {
     public String alterar(@PathVariable("id") Long id, Model model) {
         Pacote pacote = pacoteRepository.findById(id).get();
         model.addAttribute("pacote", pacote);
-        return "pages/cliente/alterar-pacote";
+        return "pages/pacote/alterar";
     }
 
     @GetMapping("/excluir/{id}")
