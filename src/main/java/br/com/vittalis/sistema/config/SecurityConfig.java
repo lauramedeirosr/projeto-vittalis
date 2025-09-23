@@ -31,7 +31,11 @@ public class SecurityConfig {
         return (web) -> web.ignoring()
                 .requestMatchers(new AntPathRequestMatcher("/**"))
                 //.requestMatchers(new AntPathRequestMatcher("/usuario/**"))
-                .requestMatchers(new AntPathRequestMatcher("/assets/**"));
+                .requestMatchers(new AntPathRequestMatcher("/css/**"))
+                .requestMatchers(new AntPathRequestMatcher("/js/**"))
+                .requestMatchers(new AntPathRequestMatcher("/fonts/**"))
+                .requestMatchers(new AntPathRequestMatcher("/img/**"))
+                .requestMatchers(new AntPathRequestMatcher("/Source/**"));
 
     }
 
@@ -40,7 +44,9 @@ public class SecurityConfig {
 
         httpSecurity
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(new AntPathRequestMatcher("/login/**")).permitAll()
+                        .requestMatchers("/login/**", "/home/**").permitAll()
+                        .requestMatchers("/administrador/**","/pacote/**","/navio/**").hasAnyAuthority("ADMINISTRADOR")
+
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)

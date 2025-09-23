@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 @Entity
 public class Cliente extends Pessoa{
 
-    public static final String ROLE_CLIENTE = "ROLE_CLIENTE";
+    public static final String ROLE_CLIENTE = "CLIENTE";
     public void addRole(RoleRepository roleRepository) {
         Role role = roleRepository.findByName(ROLE_CLIENTE);
         this.getUser().getRoles().add(role);

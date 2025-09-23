@@ -9,7 +9,7 @@ import jakarta.persistence.GeneratedValue;
 @Entity
 public class Administrador extends Pessoa {
 
-    public static final String ROLE_ADMINISTRADOR = "ROLE_ADMINISTRADOR";
+    public static final String ROLE_ADMINISTRADOR = "ADMINISTRADOR";
     public void addRole(RoleRepository roleRepository) {
         Role role = roleRepository.findByName(ROLE_ADMINISTRADOR);
         this.getUser().getRoles().add(role);

@@ -9,7 +9,7 @@ import java.sql.Date;
 public class Reserva {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private double valor;
     private enum formaPagamento {PIX, boleto, cartão};

@@ -2,6 +2,7 @@ package br.com.vittalis.sistema.controller;
 
 import br.com.vittalis.sistema.model.Cliente;
 import br.com.vittalis.sistema.model.Pacote;
+import br.com.vittalis.sistema.repository.NavioRepository;
 import br.com.vittalis.sistema.repository.PacoteRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class PacoteController {
 
     @Autowired
     private PacoteRepository pacoteRepository;
+
+    @Autowired
+    private NavioRepository navioRepository;
 
     @GetMapping
     public String listagem(Model model) {
@@ -51,6 +55,7 @@ public class PacoteController {
     public String cadastro(Model model) {
         Pacote pacote = new Pacote();
         model.addAttribute("pacote", pacote);
+        model.addAttribute("navios", navioRepository.findAll());
         return "pages/pacote/cadastro";
     }
 

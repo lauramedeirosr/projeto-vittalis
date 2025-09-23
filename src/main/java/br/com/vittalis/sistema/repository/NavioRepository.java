@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface NavioRepository extends JpaRepository<Navio, Long> {
     List<Navio> findClienteBynomeNavioContaining(String nomeNavio);
+
+    Long countByQuartosIsNotNull();
 }

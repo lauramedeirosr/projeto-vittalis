@@ -92,7 +92,7 @@
                         <td>
                             <a class="btn btn-sm"
                                th:href="@{/pacote/excluir/{id}(id=${pacote.id})}"
-                               th:data-confirm-delete="|Você gostaria de apagar ${pacote.nomeCompleto}?|"
+                               th:data-confirm-delete="|Você gostaria de apagar ${pacote.nomeDestino}?|"
                                onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
                                 <i class="fa-solid fa-trash" style="color: #5a172d;"></i>
                             </a>
