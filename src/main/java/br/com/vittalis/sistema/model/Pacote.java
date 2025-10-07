@@ -17,9 +17,9 @@ public class Pacote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String nomeDestino;
-    private String descricaoPacote;
+    private String descricao;
     private double preco;
     private int vagasDisponiveis;
 
@@ -31,7 +31,8 @@ public class Pacote {
     @Temporal(TemporalType.DATE)
     private Date dataExpedicao;
 
-    @OneToMany(mappedBy = "pacote", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pacote", cascade = {CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<ImagemPacote> imagemPacote = new ArrayList<>();
+    private String image;
 
 }

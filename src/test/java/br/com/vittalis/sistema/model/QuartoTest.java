@@ -17,12 +17,12 @@ class QuartoTest {
         Quarto quarto = new Quarto();
         quarto.setNome("Quarto VIP");
         quarto.setDescricao("Quarto com vista para o mar e serviço de quarto 24 horas.");
-        quarto.setQuantidadeDisponivel(5);
+        quarto.setQuantidadeDisponivel(5L);
     }
 
     @Test
     public void AlterarQuarto(){
-        Quarto quarto = quartoRepository.findById(1l).orElse(null);
+        Quarto quarto = quartoRepository.findById(1L).orElse(null);
         assertNotNull(quarto, "Quarto não encontrado");
 
         quarto.setDescricao("Quarto com vista para o mar, serviço de quarto 24 horas e banheira de hidromassagem.");
@@ -31,7 +31,7 @@ class QuartoTest {
 
     @Test
     public void ExcluirQuarto(){
-        Quarto quarto = quartoRepository.findById(1l).orElse(null);
+        Quarto quarto = quartoRepository.findById(1L).orElse(null);
         assertNotNull(quarto, "Quarto não encontrado");
 
         quartoRepository.delete(quarto);

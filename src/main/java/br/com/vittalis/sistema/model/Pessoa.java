@@ -41,6 +41,7 @@ public class Pessoa {
 
     @NotEmpty(message = "O campo 'Email' deve ser preenchido")
     @Email(message = "O campo 'Email' deve ser válido")
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Basic
@@ -59,6 +60,6 @@ public class Pessoa {
     //@NotEmpty(message = "O campo 'Senha' deve ser preenchido")
     private String senha;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private User user = new User();
 }

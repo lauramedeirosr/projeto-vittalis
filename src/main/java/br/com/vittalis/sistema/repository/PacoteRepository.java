@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface PacoteRepository extends JpaRepository<Pacote, Long> {
-    static List<Cliente> findPacoteByNomeCompletoContaining(String nome) {
+    static List<Pacote> findPacoteByNomeDestinoContaining(String nomeDestino) {
         return List.of();
     }
 

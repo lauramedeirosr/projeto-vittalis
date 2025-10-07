@@ -17,9 +17,6 @@ class NavioTest {
         Navio navio = new Navio();
         navio.setNomeNavio("Navio 02");
         navio.setDescricao("Navio de passageiros famoso por seu naufrágio em 1912.");
-        navio.setQuarto1("Quarto Luxo");
-        navio.setQuarto2("Quarto Econômico");
-        navio.setQuarto3("Quarto Compartilhado");
 
         navioRepository.save(navio);
     }
@@ -36,7 +33,7 @@ class NavioTest {
 
     @Test
     public void ExcluirNavio() {
-        Navio navio = navioRepository.findById(1l).orElse(null);
+        Navio navio = navioRepository.findById(1L).orElse(null);
         assertNotNull(navio, "Navio não encontrado");
 
         navioRepository.delete(navio);

@@ -1,14 +1,17 @@
 package br.com.vittalis.sistema.controller;
 
 import br.com.vittalis.sistema.model.Cliente;
+import br.com.vittalis.sistema.model.User;
 import br.com.vittalis.sistema.repository.ClienteRepository;
 import br.com.vittalis.sistema.repository.RoleRepository;
+import br.com.vittalis.sistema.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -30,6 +34,9 @@ public class ClienteController {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
     public String listagem(Model model) {
@@ -61,6 +68,10 @@ public class ClienteController {
         cliente.addRole(roleRepository);
 
         clienteRepository.save(cliente);
+
+        attributes.addFlashAttribute("mensagem", "Cadastro realizado com sucesso!!");
+
+
         return "redirect:/login";
     }
 
@@ -73,6 +84,10 @@ public class ClienteController {
         if(result.hasErrors()) {
             return "pages/cliente/alterar-cliente" + cliente.getId();
         }
+
+        attributes.addFlashAttribute("mensagem", "Cadastro alterado com sucesso!!");
+
+
         clienteRepository.save(cliente);
         return "redirect:/cliente";
     }
@@ -87,8 +102,19 @@ public class ClienteController {
     }
 
     @GetMapping("/excluir/{id}")
-    public String excluir(@PathVariable("id") Long id) {
-        clienteRepository.deleteById(id);
+    public String excluir(@PathVariable("id") Long id, RedirectAttributes attributes, ModelMap modelMap) {
+        if (clienteRepository.existsById(id)) {
+            Cliente cliente = clienteRepository.findById(id).get();
+            User user = cliente.getUser();
+            user.setRoles(new ArrayList<>());
+            userRepository.save(user);
+
+
+            clienteRepository.deleteById(id);
+            attributes.addFlashAttribute("mensagem", "Usuário excluído com sucesso!");
+        } else {
+            attributes.addFlashAttribute("mensagem", "Usuário não encontrado!");
+        }
         return "redirect:/cliente";
     }
 
