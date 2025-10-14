@@ -62,6 +62,7 @@ public class NavioController {
     public String alterar(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
         Navio navioOptional = navioRepository.findById(id).get();
         model.addAttribute("navio", navioOptional);
+
         return "pages/navio/alterar";
     }
 

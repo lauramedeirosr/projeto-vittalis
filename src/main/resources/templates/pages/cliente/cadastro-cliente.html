@@ -63,7 +63,8 @@
                 <div class="col-md-6">
                     <small class=" nomeInput form-text text-muted d-block mt-1">Data de Nascimento</small>
                     <input type="date" th:field="*{dataNascimento}" class="form-control" id="dataNascimento"
-                           placeholder="dd/mm/yyyy" required/>
+                           placeholder="dd/mm/yyyy" required />
+
                 </div>
             </div>
 
@@ -127,8 +128,7 @@
                         <div class="col-md-6">
                             <small class="nomeInput form-text text-muted d-block mt-1">UF</small>
                             <input type="text" th:field="*{endereco.uf}" class="form-control" id="uf" name="uf" required
-                                   maxlength="2" style="text-transform: uppercase;" th:classappend="${#fields.hasErrors('cpf')} ? 'is-invalid' : ''">
-                            <span class="mensagem-erro" th:if="${#fields.hasErrors('endereco.uf')}" th:errors="*{endereco.uf}"></span>
+                                   maxlength="2" style="text-transform: uppercase;">
                         </div>
                     </div>
                     <div class="mb-2">

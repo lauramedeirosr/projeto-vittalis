@@ -78,6 +78,7 @@
 
                     <!-- Recurso do Themyleaf. Percorre a lista de clientes e preenche a tabela -->
                     <tr th:each="pacote : ${pacotes}">
+                        <td th:text="${pacote.id}">Id</td>
                         <td><span th:text="${pacote.nomeDestino}"> Destino </span></td>
                         <td><span th:text="${pacote.preco}"> Preço </span></td>
                         <td><span
@@ -117,6 +118,7 @@
 
 <div th:replace="fragments/footer :: footer"></div>
 <div th:replace="fragments/datatables :: datatables"></div>
+<div th:replace="fragments/scripts :: scripts"></div>
 </body>
 
 </html>

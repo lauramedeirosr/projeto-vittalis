@@ -57,8 +57,7 @@ public class UserController {
         if(result.hasErrors()){
             return "user/form-inserir";
         }
-
-
+        
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 

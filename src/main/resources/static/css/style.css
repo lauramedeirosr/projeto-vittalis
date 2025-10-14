@@ -70,9 +70,28 @@ p {
 	line-height: 26px;
 	margin: 0 0 15px 0;
 }
-img {
-	max-width: 100%;
+.logo-col img {
+	height: 40px;   /* controla altura da logo */
+	width: auto;
+	object-fit: contain;
 }
+
+.mainmenu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.mainmenu ul li {
+	margin: 0 15px;
+}
+
+.mainmenu ul li a {
+	white-space: nowrap; /* impede quebra de linha */
+}
+
+
+
 input:focus, select:focus, button:focus, textarea:focus {
 	outline: none;
 }
@@ -447,6 +466,7 @@ ul, ol {
 .menu-item .nav-menu .mainmenu li a {
 	font-size: 16px;
 	color: #19191a;
+	display: flex;
 	margin: 0 42px 0 42px;
 	font-weight: 500;
 	display: inline-block;

@@ -20,7 +20,7 @@ class ClienteTest extends Pessoa {
         Cliente cliente = new Cliente();
         cliente.setNomeCompleto("João da Silva");
         cliente.setCpf("47782505089");
-        cliente.setEmail("joão.silva@gmail.com");
+        cliente.setEmail("joao.silva@gmail.com");
         cliente.setDataNascimento(Date.valueOf("2025-01-01"));
         cliente.setTelefone("11987654321");
         clienteRepository.save(cliente);
