@@ -31,4 +31,10 @@ public class HomeController {
         return "home/info-pacote";
     }
 
+    @GetMapping("/reserva")
+        public String reserva() {
+        return "pages/reserva/reserva-pacote";
+    }
+
+
 }
