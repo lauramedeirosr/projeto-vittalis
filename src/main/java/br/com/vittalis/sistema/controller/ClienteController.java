@@ -26,18 +26,23 @@ import java.util.List;
 @RequestMapping("/cliente")
 public class ClienteController {
 
+    // Injeção de dependência do repositório de clientes
     @Autowired
     private ClienteRepository clienteRepository;
 
+    // Injeção de dependência do codificador de senhas BCrypt
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    // Injeção de dependência do repositório de papéis (roles)
     @Autowired
     private RoleRepository roleRepository;
 
+    // Injeção de dependência do repositório de usuários
     @Autowired
     private UserRepository userRepository;
 
+    // Método para listar todos os clientes
     @GetMapping
     public String listagem(Model model) {
 

@@ -14,6 +14,7 @@ public class HomeController {
     @Autowired
     private PacoteRepository pacoteRepository;
 
+    // método para exibir a página inicial com a lista de pacotes
     @GetMapping
     public String home(Model model) {
         model.addAttribute("pacotes", pacoteRepository.findAll());
@@ -34,6 +35,18 @@ public class HomeController {
     @GetMapping("/reserva")
         public String reserva() {
         return "pages/reserva/reserva-pacote";
+    }
+
+    @GetMapping("/parceiros")
+        public String parceiros() {
+        return "pages/parceiros/listagem";
+    }
+
+    @GetMapping("/lei")
+        public String lei() {
+            return "pages/lei/lei";
+
+
     }
 
 

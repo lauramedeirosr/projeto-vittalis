@@ -19,8 +19,11 @@ import java.util.Optional;
 @RequestMapping("/navio")
 public class NavioController {
 
+    // Injeção de dependência do repositório de navios
     @Autowired
     private NavioRepository navioRepository;
+
+    // Injeção de dependência do repositório de quartos
     @Autowired
     private QuartoRepository quartoRepository;
 
