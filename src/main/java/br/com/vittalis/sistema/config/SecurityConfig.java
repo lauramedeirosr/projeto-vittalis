@@ -29,7 +29,7 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .requestMatchers(new AntPathRequestMatcher("/**"))
+                //.requestMatchers(new AntPathRequestMatcher("/**"))
                 //.requestMatchers(new AntPathRequestMatcher("/usuario/**"))
                 .requestMatchers(new AntPathRequestMatcher("/css/**"))
                 .requestMatchers(new AntPathRequestMatcher("/js/**"))
@@ -44,16 +44,24 @@ public class SecurityConfig {
 
         httpSecurity
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/login/**", "/home/**").permitAll()
-                        .requestMatchers("/administrador/**","/pacote/**","/navio/**").hasAnyAuthority("ADMINISTRADOR")
+                        // public endpoints
+                        .requestMatchers("/login/**", "/home/**", "/cliente/cadastro/**").permitAll()
+                        // ensure both the exact path /administrador and any subpaths are restricted to ADMINISTRADOR
+                        .requestMatchers("/administrador", "/administrador/**").hasAuthority("ADMINISTRADOR")
+                        // other admin-only areas
+                        .requestMatchers("/pacote/**", "/navio/**").hasAuthority("ADMINISTRADOR")
 
+                        // any authenticated user may access other routes; additionally allow ADMINISTRADOR to access everything
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/home")
+                        .successHandler(new RedirectOnLoginSuccessHandler())
                         .permitAll()
+                )
+                .exceptionHandling((exceptions) -> exceptions
+                        .accessDeniedPage("/acesso-negado")
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
