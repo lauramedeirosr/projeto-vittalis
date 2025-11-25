@@ -540,6 +540,16 @@ ul, ol {
 .offcanvas-menu-wrapper {
 	display: none;
 }
+
+.menu-item .logo {
+	margin-top: 0 !important;
+}
+
+.menu-item .nav-menu .mainmenu li a,
+.menu-item .nav-menu .nav-right {
+	padding: 12px 0 !important;
+}
+
 /*---------------------
   Hero
 -----------------------*/
