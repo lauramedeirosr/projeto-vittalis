@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" th:href="@{/img/sub-logo1.png}">
+    <link rel="stylesheet" th:href="@{/css/checkin.css}"/>
+    <th:block th:replace="~{fragments/config :: config}"></th:block>
+    <!-- Biblioteca JS para gerar QR codes -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <title>Minhas Reservas</title>
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<main>
+    <div class="container">
+        <h1>Sistema de Check-in</h1>
+
+        <div class="cards-container">
+            <!-- Reserva estática 1: Paris -->
+            <div class="card">
+                <!-- Imagem do destino -->
+                <img src="/img/gallery/gallery-1.jpg" alt="Imagem do destino" class="card-image">
+
+                <div class="card-content">
+                    <h2>Paris</h2>
+                    <p>Data: 15/10/2023</p>
+                </div>
+
+                <!-- Botão de Check-in -->
+                <button class="checkin-btn" onclick="toggleCheckin(this, 'Paris', '15/10/2023', 'qrcode-canvas-0')">
+                    Check-in
+                </button>
+
+                <!-- Seção de check-in oculta para este card -->
+                <div class="checkin-list" style="display: none;">
+                    <h3>Informações do Check-in</h3>
+                    <ul class="list-cinza">
+                        <li>Confirme sua identidade</li>
+                        <li>Verifique os documentos</li>
+                        <li>Baixe o voucher</li>
+                    </ul>
+                    <!-- Canvas único para o QR code desta reserva -->
+                    <canvas id="qrcode-canvas-0" class="qrcode-canvas"></canvas>
+                </div>
+            </div>
+
+            <!-- Reserva estática 2: Nova York -->
+            <div class="card">
+                <!-- Imagem do destino -->
+                <img src="/img/gallery/gallery-1.jpg"  alt="Imagem do destino" class="card-image">
+
+                <div class="card-content">
+                    <h2>Nova York</h2>
+                    <p>Data: 20/11/2023</p>
+                </div>
+
+                <!-- Botão de Check-in -->
+                <button class="checkin-btn" onclick="toggleCheckin(this, 'Nova York', '20/11/2023', 'qrcode-canvas-1')">
+                    Check-in
+                </button>
+
+                <!-- Seção de check-in oculta para este card -->
+                <div class="checkin-list" style="display: none;">
+                    <h3>Informações do Check-in</h3>
+                    <ul class="list-cinza">
+                        <li>Confirme sua identidade</li>
+                        <li>Verifique os documentos</li>
+                        <li>Baixe o voucher</li>
+                    </ul>
+                    <!-- Canvas único para o QR code desta reserva -->
+                    <canvas id="qrcode-canvas-1" class="qrcode-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+    function toggleCheckin(button, nome, data, canvasId) {
+        const card = button.parentElement;
+        const checkinSection = card.querySelector('.checkin-list');
+
+        // Se a seção já estiver visível, oculta e para a execução
+        if (checkinSection.style.display === 'flex') {
+            checkinSection.style.display = 'none';
+            return;
+        }
+
+        // Oculta todas as outras seções de check-in abertas
+        document.querySelectorAll('.checkin-list').forEach(section => {
+            section.style.display = 'none';
+        });
+
+        // Gera o QR code no canvas específico
+        const qrText = 'Destino: ' + nome + ' | Data: ' + data;
+        const canvas = document.getElementById(canvasId);
+        QRCode.toCanvas(canvas, qrText, { width: 120, height: 120 }, function (error) {
+            if (error) console.error('Erro ao gerar QR code:', error);
+        });
+
+        // Mostra a seção de check-in
+        checkinSection.style.display = 'flex';
+
+        // Rola a tela para a seção que foi aberta
+        checkinSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+</script>
+
+</body>
+</html>

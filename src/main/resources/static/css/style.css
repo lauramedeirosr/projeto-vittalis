@@ -36,8 +36,26 @@ html, body {
 	background-color: #fff;
 	display: flex;
 	flex-direction: column;
+	scroll-behavior: smooth;
 
 }
+
+.botao-flutuante {
+	position: fixed;
+	bottom: 20px;   /* Distância do fundo */
+	right: 20px;    /* Distância da direita */
+	z-index: 9999;  /* Garante que fique acima de tudo */
+	width: 60px;    /* Tamanho da imagem */
+	cursor: pointer;
+	transition: all 0.3s;
+}
+
+.botao-flutuante:hover {
+	transform: scale(1.1); /* Aumenta um pouco ao passar o mouse */
+}
+
+
+
 h1, h2, h3, h4, h5, h6 {
 	margin: 0;
 	color: #111111;

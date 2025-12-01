@@ -1,25 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Fragmento de código que será substituído pelo conteúdo do fragmento "heads" -->
     <div th:replace="fragments/config :: config"></div>
-
-    <title>Cadastro dos Clientes</title>
+    <title>Listagem de Parceiros</title>
 </head>
 <body>
 <div class="container container_listagem_pacote">
     <div th:replace="fragments/header-adm :: header"></div>
 
-    <!-- Fragmento de código que será substituído pelo conteúdo do fragmento "cabecalho" -->
-
     <div class="row">
-
         <div class="col">
 
             <!-- Mensagem carregada após a alteração ou exclusão dos dados-->
             <div class="alert alert-success alert-dismissible fade show" th:if="${mensagem}">
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                <!--/*@thymesVar id="mensagem" type=""*/-->
                 <span th:text="${mensagem}"></span>
             </div>
 
@@ -27,19 +21,18 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-6">
-                            <h2 style="padding: 30px">Listagem de Pacotes</h2>
+                            <h2 style="padding: 30px">Listagem de Parceiros</h2>
                         </div>
-
                     </div>
                 </div>
 
-
                 <div class="row">
                     <div class="col-sm-5">
-                        <form th:action="@{/pacote/buscar}" method="post"
+                        <!-- CORREÇÃO: Busca via GET -->
+                        <form th:action="@{/parceiro/buscar}" method="get"
                               style="background-color: #5a172d; border-radius: 5px;">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="nome"/>
+                                <input type="text" class="form-control" name="nome" placeholder="Buscar por nome..."/>
                                 <button class="btn " type="submit" value="Buscar"><i
                                         class="fa-solid fa-magnifying-glass" style="color: #ffffff;"></i></button>
                             </div>
@@ -48,7 +41,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="col-sm-12" style="text-align: right; ">
-                            <a class="btn " th:href="@{/pacote/cadastro}"
+                            <a class="btn " th:href="@{/parceiro/cadastro}"
                                style="background-color: #5a172d; border-radius: 5px;">
                                 <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
                             </a>
@@ -56,51 +49,44 @@
                     </div>
                 </div>
                 <br>
-                <table id="basic-datatables"
-                       class="table table-striped table-hover">
+                <table id="basic-datatables" class="table table-striped table-hover">
                     <thead style="margin-top: 20px;">
                     <tr>
                         <th>ID</th>
-                        <th>Destino</th>
-                        <th>Preço</th>
-                        <th>Data limite da inscrição</th>
-                        <th>Data da Expedição</th>
-                        <th>Vagas</th>
+                        <th>Nome Responsável</th>
+                        <th>CPF</th>
+                        <th>Telefone</th>
+                        <th>Email</th>
+                        <th>Nome Empresa</th>
                         <th class="text-center">Ações</th>
                     </tr>
                     </thead>
                     <tbody>
 
-                    <!-- Recurso do Themyleaf. Verifica se a lista de cliente está vazia -->
-                    <tr th:if="${pacotes.empty}">
-                        <td colspan="5">Nenhum registro encontrado</td>
+                    <tr th:if="${parceiros.empty}">
+                        <td colspan="7">Nenhum registro encontrado</td>
                     </tr>
 
-                    <!-- Recurso do Themyleaf. Percorre a lista de clientes e preenche a tabela -->
-                    <tr th:each="pacote : ${pacotes}">
-                        <td th:text="${pacote.id}">Id</td>
-                        <td><span th:text="${pacote.nomeDestino}"> Destino </span></td>
-                        <td><span th:text="${pacote.preco}"> Preço </span></td>
-                        <td><span
-                                th:text="${#dates.format(pacote.dataLimiteInscricao, 'dd/MM/yyyy')}"> Data limite da inscrição </span>
-                        </td>
-                        <td><span
-                                th:text="${#dates.format(pacote.dataExpedicao, 'dd/MM/yyyy')}"> Data da expedição </span>
-                        </td>
-                        <td><span th:text="${pacote.vagasDisponiveis}"> Vagas </span></td>
-
+                    <tr th:each="parceiro : ${parceiros}">
+                        <td th:text="${parceiro.id}">Id</td>
+                        <td><span th:text="${parceiro.nomeResponsavel}"> Nome Responsável </span></td>
+                        <td><span th:text="${parceiro.cpf}"> CPF </span></td>
+                        <td><span th:text="${parceiro.telefone}"> Telefone </span></td>
+                        <td><span th:text="${parceiro.email}"> Email </span></td>
+                        <td><span th:text="${parceiro.nomeEmpresa}"> Nome Empresa </span></td>
 
                         <td>
+                            <!-- CORREÇÃO: Variável da mensagem de confirmação corrigida para nomeResponsavel -->
                             <a class="btn btn-sm"
-                               th:href="@{/pacote/excluir/{id}(id=${pacote.id})}"
-                               th:data-confirm-delete="|Você gostaria de apagar ${pacote.nomeDestino}?|"
+                               th:href="@{/parceiro/excluir/{id}(id=${parceiro.id})}"
+                               th:data-confirm-delete="|Você gostaria de apagar ${parceiro.nomeResponsavel}?|"
                                onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
                                 <i class="fa-solid fa-trash" style="color: #5a172d;"></i>
                             </a>
 
                             <a class="btn btn-sm"
-                               th:href="@{/pacote/alterar/{id}(id=${pacote.id})}"><i class="fa-solid fa-pencil"
-                                                                                     style="color: #5a172d;"></i>
+                               th:href="@{/parceiro/alterar/{id}(id=${parceiro.id})}">
+                                <i class="fa-solid fa-pencil" style="color: #5a172d;"></i>
                             </a>
                         </td>
                     </tr>
@@ -109,16 +95,11 @@
             </div>
 
         </div>
-
-
     </div>
-
-
 </div>
 
 <div th:replace="fragments/footer :: footer"></div>
 <div th:replace="fragments/datatables :: datatables"></div>
 <div th:replace="fragments/scripts :: scripts"></div>
 </body>
-
 </html>

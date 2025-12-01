@@ -3,14 +3,11 @@
 
 <head>
     <title>Vittalis - Home</title>
-    <link rel="icon" type="imagem/png" href="/img/sub-logo1.png">
+    <link rel="icon" type="imagem/png" th:href="@{/img/sub-logo1.png}">
     <th:block th:replace="fragments/config :: config"></th:block>
-
-
 </head>
 
 <body>
-
 
 <!-- Page Preloder -->
 <div id="preloder">
@@ -30,8 +27,6 @@
         <i class="icon_search"></i>
     </div>
     <div id="mobile-menu-wrap"></div>
-
-
 </div>
 <!-- Offcanvas Menu Section End -->
 
@@ -41,13 +36,9 @@
 
 <!-- Hero Section Begin -->
 <section class="hero-section">
-
     <div th:replace="fragments/carousel :: carousel"></div>
-
 </section>
 <!-- Hero Section End -->
-
-
 
 <!-- About Us Section Begin -->
 <div th:replace="fragments/sobre-nos :: sobre-nos"></div>
@@ -60,6 +51,7 @@
 <!-- Services Section End -->
 <div th:replace="fragments/services :: services"></div>
 <!-- Services Section End -->
+
 
 <!-- Testimonial Section Begin -->
 <div th:replace="fragments/feedbacks :: feedbacks"></div>
@@ -83,6 +75,22 @@
     </div>
 </div>
 <!-- Search model end -->
+
+<!-- ======================================================= -->
+<!-- BOTÃO FLUTUANTE (NAVIO/ÂNCORA) - INÍCIO -->
+<!-- ======================================================= -->
+<a href="#" class="botao-navio" style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; cursor: pointer;">
+    <!-- VERIFIQUE O NOME DA IMAGEM ABAIXO -->
+    <img th:src="@{/img/cruzeiro00.png}"
+         alt="Voltar ao Topo"
+         title="Voltar ao Topo"
+         style="width: 80px; transition: transform 0.3s;"
+         onmouseover="this.style.transform='scale(1.1)'"
+         onmouseout="this.style.transform='scale(1)'">
+</a>
+<!-- ======================================================= -->
+<!-- BOTÃO FLUTUANTE - FIM -->
+<!-- ======================================================= -->
 
 <div th:replace="fragments/scripts :: scripts"></div>
 </body>

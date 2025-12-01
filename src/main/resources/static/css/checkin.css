@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffff; /* Branco */
+    color: #5a172d; /* Vinho */
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #5a172d; /* Vinho */
+}
+
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    background-color: #5a172d; /* Vinho */
+    color: #ffff; /* Branco */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
+}
+
+.card-content {
+    flex: 1;
+}
+
+.card-content h2 {
+    margin: 0;
+    color: #FFD700; /* Dourado */
+}
+
+.card-content p {
+    margin: 5px 0;
+}
+
+.checkin-btn {
+    background-color: #FFD700; /* Dourado */
+    color: #5a172d; /* Vinho */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.checkin-btn:hover {
+    background-color: #e6c200; /* Dourado escuro */
+}
+
+.checkin-list {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f0f0f0; /* Cinza claro */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.list-cinza {
+    flex: 1;
+    color: #5a172d; /* Vinho */
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.qrcode-image {
+    width: 100px;
+    height: 100px;
+    margin-left: 20px;
+}
