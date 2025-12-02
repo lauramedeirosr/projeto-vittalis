@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="pt-br">
+<head>
+    <link rel="icon" type="imagem/png" th:href="@{/img/sub-logo1.png}">
+    <link rel="stylesheet" th:href="@{/css/contato.css}"/>
+    <th:block th:replace="fragments/config :: config"></th:block>
+    <title>Formulário de Cadastro de Pacotes</title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+<main>
+    <main class="contact-container">
+        <!-- Seção do Formulário -->
+        <section class="form-section">
+            <h1>Contate-nos</h1>
+            <p class="subtitle">Alguma pergunta ou observação? Basta nos escrever uma mensagem!</p>
+
+            <form action="#" method="POST">
+                <div class="contact-form">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Exemplo@exemplo.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" placeholder="Nome" required>
+                    </div>
+                </div>
+                <div class="contact-form2">
+                <div class="form-group">
+                        <label for="name">Observação:</label>
+                        <input type="text" id="observacao" name="name" placeholder="Coloque a sua informação aqui..." required>
+                    </div>
+                </div>
+                <button type="submit" class="submit-button">ENVIAR</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Seção de Informações com fundo cinza -->
+    <div class="info-wrapper">
+        <section class="info-section">
+
+            <div class="info-box">
+                <div class="icon-circle">
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+                <h3>CONTATO</h3>
+                <p>Telefone: (21) 3000-5000</p>
+                <p>E-mail: vittalis_cruzeiro@gmail.com</p>
+            </div>
+
+            <div class="info-box">
+                <div class="icon-circle">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <h3>LOCALIZAÇÃO</h3>
+                <p>Avenida Oceano Azul, 1500 – Torre Marítima, 18º andar</p>
+                <p>Bairro Porto Novo – Rio de Janeiro, RJ</p>
+            </div>
+
+        </section>
+        <div class="contact-form">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14709.698546482037!2d-43.08463479724538!3d-22.82377401901464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x999b165ea47157%3A0x8e7f7723d854b995!2sPorto%20Novo%2C%20S%C3%A3o%20Gon%C3%A7alo%20-%20RJ!5e0!3m2!1spt-BR!2sbr!4v1754395102243!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

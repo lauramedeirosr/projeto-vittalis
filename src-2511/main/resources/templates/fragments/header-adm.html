@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="header">
+    <header class="header-section">
+
+        <div class="menu-item">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="logo">
+                            <a href="./administrador">
+                                <img th:src="@{/img/letra000.png}" alt="logo" width="155px" height="40px">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-10" style="margin-top: 10px" >
+                        <div class="nav-menu">
+                            <nav class="mainmenu">
+                                <ul >
+                                    <li class="active"><a href="./administrador">Início</a></li>
+                                    <li><a href="./cliente">Clientes</a></li>
+                                    <li><a href="./pacote">Pacotes</a></li>
+                                    <li><a href="./navio">Navios</a></li>
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+</body>
+</html>

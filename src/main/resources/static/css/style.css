@@ -207,6 +207,7 @@ ul, ol {
 	background: rgb(90, 23, 45);
 	content: "";
 }
+
 /* Preloder */
 
 #preloder {
@@ -754,6 +755,46 @@ ul, ol {
 .services-section .section-title {
 	margin-bottom: 36px;
 }
+
+.header-section {
+	padding: 10px 0; /* Aumentei o espaçamento vertical para deixar a barra maior */
+	background-color: #fff; /* Garante fundo branco se necessário */
+	box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Opcional: dá um destaque na nav */
+}
+
+/* Estilização dos Links do Menu para acompanhar o tamanho */
+.mainmenu ul li a {
+	font-size: 16px;       /* Texto um pouco maior */
+	font-weight: 500;
+	color: #333;           /* Cor padrão do texto */
+	padding: 0 15px;       /* Espaçamento entre os links */
+	text-decoration: none;
+}
+
+/* Classe original mantida, com o novo design solicitado */
+.botaoLogin {
+	margin-left: 110px; /* Afasta o botão do menu (expande a nav horizontalmente) */
+	padding: 13px 30px;
+	background-color: #5d152d;
+	border-radius: 10px;
+	font-size: 15px;
+	border: none;
+	color: #FFFFFF;
+	cursor: pointer;
+	transition: background-color 0.3s; /* Suaviza a mudança de cor */
+}
+
+.botaoLogin:hover {
+	background-color: #431222;
+}
+
+/* Ajuste para alinhar verticalmente todos os itens */
+.d-flex.align-items-center {
+	align-items: center !important;
+}
+
+
+
 .service-item {
 	text-align: center;
 	padding: 30px 35px 18px;

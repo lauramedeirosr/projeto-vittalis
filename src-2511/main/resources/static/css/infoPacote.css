@@ -1,0 +1,168 @@
+.div-pai2{
+    display: flex;
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    align-items: flex-start; /* Alinha os itens pelo topo */
+    padding: 70px 0px;
+    gap: 20px; /* Adiciona um espaço entre a imagem do itinerário e os destinos */
+}
+
+button.confirm-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #5a172d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+
+}
+
+
+.container1{
+    display: flex;
+    margin: 20px;
+    justify-content: center;
+    align-items: center;
+}
+.servicos{
+    padding: 10px;
+    margin: 100px;
+}
+
+
+.navioVittalis{
+    color: #a2a2a2;
+}
+
+.servicos2{
+    display: flex;
+    margin: 20px;
+}
+
+.vermelho{
+    color: #5a172d;
+    font-weight: bold;
+    justify-content: center;
+}
+
+.textoGeral{
+    padding: 10px;
+}
+
+.preco{
+    border: solid 2px rgba(90, 23, 45, 0.73);
+    border-radius: 50px;
+    padding: 60px;
+    margin: 20px;
+}
+
+svg{
+    display: flex;
+    margin-left: 120px;
+    color: #471223;
+    cursor: pointer;
+}
+
+h1{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h2{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h3{
+    font-size: 15px;
+}
+
+.img1 {
+    margin-left: 120px;
+    width: 1300px;
+}
+
+.itinerario{
+    margin-left: 90px;
+
+}
+
+
+.destino1 {
+    background-color: rgba(214, 171, 31, 0.34);
+    padding: 15px;
+    border-radius: 75px;
+    width: 700px;
+    height: 130px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+.img2{
+    width: 100px;
+    height: 100px!important;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 60px;
+}
+
+.img3, .img4 {
+    width: 100px;
+    height: 100px!important;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 40px;
+}
+
+.img5{
+    width: 100px;
+    height: 100px!important;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 60px;
+}
+
+.img6{
+    width: 100px;
+    height: 100px!important;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 65px;
+}
+
+
+.conteudo {
+margin-left: 60px;
+}
+
+.titulo{
+    color: #5a172d;
+}
+
+.div1{
+    margin-right: 20px;
+}
+
+.div2{
+   margin-right: 20px;
+}
+
+.precoDiv{
+    margin: 10px;
+    padding: 10px;
+}
+
+.formulario{
+    margin-bottom: 20px;
+}
+
+.col-2 {
+    flex: 0 0 auto;         /* evita encolher */
+    width: auto !important; /* libera largura automática */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 !important;
+}
+
+.form-floating{
+    margin: 10px 10px 0 20px;
+}

@@ -11,42 +11,56 @@ body {
     margin: 0 auto;
 }
 
+p{
+    text-align: center;
+}
+
+
+ h3 {
+    text-align: center;
+     padding: 10px;
+}
+
 h1 {
     text-align: center;
-    color: #5a172d; /* Vinho */
+    padding:20px;
 }
+
 
 .cards-container {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
+    flex-wrap: wrap;   /* permite quebrar linha caso não caiba */
+    gap: 20px;         /* espacinho entre os cards */
+    justify-content: center;
+    padding: 30px;
+    margin-bottom: 80px;
 }
 
 .card {
+    background-color: white;
+    color: #5a172d;
+    width: 280px;
+    padding: 15px;
     display: flex;
-    align-items: center;
-    background-color: #5a172d; /* Vinho */
-    color: #ffff; /* Branco */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .card-image {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 140px;
     object-fit: cover;
-    border-radius: 8px;
-    margin-right: 20px;
+    border-radius: 6px;
 }
 
 .card-content {
     flex: 1;
 }
 
-.card-content h2 {
+.card-content h3 {
     margin: 0;
-    color: #FFD700; /* Dourado */
+    color: #000000; /* Dourado */
 }
 
 .card-content p {
@@ -54,7 +68,7 @@ h1 {
 }
 
 .checkin-btn {
-    background-color: #FFD700; /* Dourado */
+    background-color: #eaaf30; /* Dourado */
     color: #5a172d; /* Vinho */
     border: none;
     padding: 10px 20px;
@@ -64,7 +78,7 @@ h1 {
 }
 
 .checkin-btn:hover {
-    background-color: #e6c200; /* Dourado escuro */
+    background-color: #c59226; /* Dourado */
 }
 
 .checkin-list {

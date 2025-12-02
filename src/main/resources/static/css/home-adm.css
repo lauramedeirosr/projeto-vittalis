@@ -1,0 +1,124 @@
+.divpai-adm{
+    display: flex;
+    margin-top: 60px;
+    justify-content: center;
+
+}
+
+.divBotaoLogout ms-3{
+    padding: 30px 40px;
+}
+
+.botaoLogin{
+    font-size: 16px;
+    font-family: "Cabin", sans-serif;
+    border-radius: 30px;
+    color: #000000;
+    background-color: #58172d;
+    margin-right: 42px;
+    width: 100px;
+    height: 50px;
+    border-width: 2px;
+}
+
+.botaoLogin:hover{
+    color: #ffffff;
+    background-color: #420e1f;
+    border: none;
+}
+
+
+
+img{
+    margin-top: 30px;
+}
+
+.listagem-adm{
+    max-width: 100px;
+    padding: 70px 55px;
+    background-color: #5a172d;
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.425);
+    justify-content: center;
+}
+
+.pacotes-adm{
+    max-width: 100px;
+    padding: 50px;
+    background-color: #5a172d;
+    border-radius: 10px;
+    margin-left: 30px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.425);
+    align-items: center;
+}
+
+.quartos-adm{
+    max-width: 100px;
+    padding: 50px;
+    background-color: #5a172d;
+    border-radius: 10px;
+    margin-left: 30px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.425);
+
+}
+
+.navio-adm{
+    max-width: 100px;
+    padding: 60px;
+    background-color: #5a172d;
+    border-radius: 10px;
+    margin-left: 30px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.425);
+}
+
+.navio-adm{
+    max-width: 100px;
+    padding: 60px;
+    background-color: #5a172d;
+    border-radius: 10px;
+    margin-left: 30px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.425);
+}
+
+.adms-adm{
+    max-width: 100px;
+    padding: 60px;
+    background-color: #5a172d;
+    border-radius: 10px;
+    margin-left: 30px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.425);
+}
+
+.parceiros-adm{
+    max-width: 70px;
+    padding: 60px;
+    background-color: #5a172d;
+    border-radius: 10px;
+    margin-left: 30px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.425);
+}
+
+
+p{
+    color: white;
+    font-size: 17px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+.div-img{
+    justify-content: center;
+    display: flex;
+    margin-top: 80px;
+}
+
+svg{
+    width:60px ;
+    margin: 0 auto;
+}
+
+.meio{
+    margin-left: 10px;
+    margin-top: 10px;
+}

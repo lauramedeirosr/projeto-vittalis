@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"> <!-- Adicionado namespace sec -->
 <body>
 <div th:fragment="header">
     <header class="header-section">
@@ -10,30 +11,41 @@
                     <!-- Logo à esquerda -->
                     <div class="logo-col">
                         <a href="/home">
-                            <img th:src="@{/img/letra000.png}" alt="logo">
+                            <!-- Certifique-se que a imagem tem um tamanho definido ou classe css para não estourar -->
+                            <img th:src="@{/img/letra000.png}" alt="logo" style="max-height: 50px;">
                         </a>
                     </div>
 
                     <!-- Menu e botão à direita -->
                     <div class="nav-menu d-flex align-items-center">
                         <nav class="mainmenu">
-                            <ul class="d-flex mb-0">
+                            <ul class="d-flex mb-0 list-unstyled align-items-center">
                                 <li class="active"><a href="/home">Início</a></li>
-                                <li><a href="#link5">Pacotes</a></li>
-                                <li><a href="./about-us.html" style="display: flex">Minhas Reservas</a></li>
-                                <li><a href="../home/contato">Contato</a></li>
-                                <li><a href="#">Sobre nós</a>
-                                    <ul class="dropdown">
-                                        <li><a href="#link1">Blog</a></li>
-                                        <li><a href="#link2">História</a></li>
-                                        <li><a href="#link3">Feedbacks</a></li>
-                                    </ul>
+
+                                <!-- Exibe Minhas Reservas apenas se logado -->
+                                <li sec:authorize="isAuthenticated()">
+                                    <a href="/checkin">Minhas Reservas</a>
                                 </li>
+
+                                <li><a href="../home/contato">Contato</a></li>
                             </ul>
                         </nav>
-                        <div class="divBotaoLogin ms-3">
-                            <a href="/login"><button class="botaoLogin">Login</button></a>
+
+                        <!-- Botão de LOGIN: Mantida classe botaoLogin -->
+                        <div class="divBotaoLogin" sec:authorize="!isAuthenticated()">
+                            <a href="/login">
+                                <button class="botaoLogin">Login</button>
+                            </a>
                         </div>
+
+                        <!-- Botão de LOGOUT: Mantida classe botaoLogin -->
+                        <div class="divBotaoLogout" sec:authorize="isAuthenticated()">
+                            <form th:action="@{/logout}" method="post">
+                                <!-- Removi o style inline antigo para respeitar o CSS da classe .botaoLogin -->
+                                <button type="submit" class="botaoLogin">Sair</button>
+                            </form>
+                        </div>
+
                     </div>
 
                 </div>
@@ -41,5 +53,6 @@
         </div>
     </header>
 </div>
+
 </body>
 </html>

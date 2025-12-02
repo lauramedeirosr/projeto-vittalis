@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+
+<head>
+    <title>Vittalis - Home</title>
+    <link rel="icon" type="image/png" href="/img/sub-logo1.png"> <!-- Corrigi "imagem" para "image" aqui -->
+    <th:block th:replace="fragments/config :: config"></th:block>
+
+    <!-- ADICIONE O CSS AQUI -->
+</head>
+
+<!-- ADICIONE O ID "topo" AQUI -->
+<body id="topo">
+
+<!-- Page Preloder -->
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+
+<!-- Offcanvas Menu Section Begin -->
+<div class="offcanvas-menu-overlay"></div>
+<div class="canvas-open">
+    <i class="icon_menu"></i>
+</div>
+<div class="offcanvas-menu-wrapper">
+    <div class="canvas-close">
+        <i class="icon_close"></i>
+    </div>
+    <div class="search-icon  search-switch">
+        <i class="icon_search"></i>
+    </div>
+    <div id="mobile-menu-wrap"></div>
+</div>
+<!-- Offcanvas Menu Section End -->
+
+<!-- Header Section Begin -->
+<div th:replace="fragments/header :: header"></div>
+<!-- Header End -->
+
+<!-- Hero Section Begin -->
+<section class="hero-section">
+    <div th:replace="fragments/carousel :: carousel"></div>
+</section>
+<!-- Hero Section End -->
+
+<!-- About Us Section Begin -->
+<div th:replace="fragments/sobre-nos :: sobre-nos"></div>
+<!-- About Us Section End -->
+
+<!-- Home Room Section Begin -->
+<div th:replace="fragments/pacotes :: pacotes"></div>
+<!-- Home Room Section End -->
+
+<!-- Services Section End -->
+<div th:replace="fragments/services :: services"></div>
+<!-- Services Section End -->
+
+<!-- Testimonial Section Begin -->
+<div th:replace="fragments/feedbacks :: feedbacks"></div>
+<!-- Testimonial Section End -->
+
+<!-- Blog Section Begin -->
+<div th:replace="fragments/blog :: blog" ></div>
+<!-- Blog Section End -->
+
+<!-- Footer Section Begin -->
+<div th:replace="fragments/footer :: footer" ></div>
+<!-- Footer Section End -->
+
+<!-- Search model Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch"><i class="icon_close"></i></div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
+    </div>
+</div>
+<!-- Search model end -->
+
+<!-- AQUI ENTRA A SUA ÂNCORA DE NAVIO -->
+<!-- Certifique-se de ter a imagem 'navio.png' na pasta static/img -->
+<a href="#topo" class="ancora-navio" title="Voltar ao topo">
+    <img th:src="@{/img/sub-logo1.png}" alt="Navio Voltar ao Topo">
+</a>
+
+<div th:replace="fragments/scripts :: scripts"></div>
+</body>
+
+</html>

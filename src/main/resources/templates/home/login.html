@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Vittalis - Login</title>
     <link rel="icon" type="imagem/png" href="/img/sub-logo1.png">
@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<form th:action="@{login}" method="POST">
+<form th:action="@{/login}" method="POST">
 
     <!-- Mensagem carregada após a alteração ou exclusão dos dados-->
     <div class="alert alert-success alert-dismissible fade show" th:if="${mensagem}">
@@ -18,7 +18,9 @@
 
     <div class="principal-login">
         <div>
-            <img src="/img/img-vittalis.png" width="450" height="525px"/>
+            <a th:href="@{/home}">
+                <img src="/img/img-vittalis.png" width="450" height="525px" alt="Vittalis Logo"/>
+            </a>
         </div>
         <div class="login-form">
             <h1>Login</h1>
@@ -30,15 +32,20 @@
                 <label for="password">Senha:</label>
                 <input type="password" id="password" name="password" placeholder="*******" required/>
             </div>
-            <p href="./esqueciSenha">Esqueci a senha?</p>
+
+            <div class="login-options">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember-me" name="remember-me">
+                    <label for="remember-me" >Lembrar-me</label>
+                </div>
+                <a href="./esqueciSenha" class="a3">Esqueci a senha?</a>
+            </div>
+
             <div class="buttons">
-                <!--            <button class="buttonLogin1"><a href="#" class="a1">Entrar</a></button>-->
                 <input type="submit" class="buttonLogin1" value="Entrar" />
-                <button onclick="window.location.href='/cliente/cadastro'" class="buttonLogin2">Cadastre-se</button>
+                <button type="button" onclick="window.location.href='/cliente/cadastro'" class="buttonLogin2">Cadastre-se</button>
             </div>
         </div>
-
-
     </div>
 </form>
 </body>

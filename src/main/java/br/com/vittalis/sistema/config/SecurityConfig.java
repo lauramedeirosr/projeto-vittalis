@@ -1,7 +1,6 @@
 package br.com.vittalis.sistema.config;
 
 
-import br.com.vittalis.sistema.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,7 +8,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import br.com.vittalis.sistema.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -44,24 +46,17 @@ public class SecurityConfig {
 
         httpSecurity
                 .authorizeHttpRequests((requests) -> requests
-                        // public endpoints
-                        .requestMatchers("/login/**", "/home/**", "/cliente/cadastro/**").permitAll()
-                        // ensure both the exact path /administrador and any subpaths are restricted to ADMINISTRADOR
-                        .requestMatchers("/administrador", "/administrador/**").hasAuthority("ADMINISTRADOR")
-                        // other admin-only areas
-                        .requestMatchers("/pacote/**", "/navio/**").hasAuthority("ADMINISTRADOR")
+                        .requestMatchers("/login/**", "/home/**", "/cliente/cadastro/**", "/cliente/salvar").permitAll()
 
-                        // any authenticated user may access other routes; additionally allow ADMINISTRADOR to access everything
+                        .requestMatchers("/administrador/**","/pacote/**","/navio/**").hasAnyAuthority("ADMINISTRADOR")
+
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .successHandler(new RedirectOnLoginSuccessHandler())
+                        .successHandler(roleBasedAuthenticationSuccessHandler())
                         .permitAll()
-                )
-                .exceptionHandling((exceptions) -> exceptions
-                        .accessDeniedPage("/acesso-negado")
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
@@ -69,5 +64,10 @@ public class SecurityConfig {
                 );
 
         return httpSecurity.build();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler roleBasedAuthenticationSuccessHandler() {
+        return new RoleBasedAuthenticationSuccessHandler();
     }
 }

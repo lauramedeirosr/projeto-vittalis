@@ -6,7 +6,7 @@
 
         <div class="menu-item">
             <div class="container">
-                <div class="row">
+                <div class="row align-items-center"> <!-- align-items-center para centralizar verticalmente -->
                     <div class="col-lg-2">
                         <div class="logo">
                             <a th:href="@{/administrador}">
@@ -14,17 +14,32 @@
                             </a>
                         </div>
                     </div>
+
                     <div class="col-lg-10" style="margin-top: 10px">
-                        <div class="nav-menu">
-                            <nav class="mainmenu">
-                                <ul>
-                                    <li class="active"><a th:href="@{/administrador}">Início</a></li>
-                                    <li><a th:href="@{/cliente}">Clientes</a></li>
-                                    <li><a th:href="@{/pacote}">Pacotes</a></li>
-                                    <li><a th:href="@{/navio}">Navios</a></li>
-                                    <li><a th:href="@{/parceiro}">Parceiros</a></li>
-                                </ul>
-                            </nav>
+                        <!-- Usamos d-flex para alinhar menu e botão na mesma linha -->
+                        <div class="d-flex justify-content-between align-items-center">
+
+                            <div class="nav-menu">
+                                <nav class="mainmenu">
+                                    <ul>
+                                        <li class="active"><a th:href="@{/administrador}">Início</a></li>
+                                        <li><a th:href="@{/cliente}">Clientes</a></li>
+                                        <li><a th:href="@{/pacote}">Pacotes</a></li>
+                                        <li><a th:href="@{/navio}">Navios</a></li>
+                                        <li><a th:href="@{/parceiro}">Parceiros</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                            <!-- Botão Logout Admin -->
+                            <div class="logout-admin ms-3">
+                                <form th:action="@{/logout}" method="post">
+                                    <!-- Estilo inline básico, ideal mover para o CSS -->
+                                    <button type="submit" style="background: rgb(90,23,45); color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                                        Sair
+                                    </button>
+                                </form>
+                            </div>
 
                         </div>
                     </div>

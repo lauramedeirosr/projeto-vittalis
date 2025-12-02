@@ -125,4 +125,5 @@ public class AdministradorController {
         model.addAttribute("administradores", administradoresBuscados);
         return "pages/adm/listagem";
     }
+
 }

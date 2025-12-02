@@ -4,9 +4,96 @@
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" th:href="@{/img/sub-logo1.png}">
     <link rel="stylesheet" th:href="@{/css/checkin.css}"/>
+    <style>
+        html, body, main {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+        }
+
+        .cards-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            width: 260px;
+            border: 1px solid #ddd;
+            padding: 12px;
+            border-radius: 6px;
+            position: relative;
+            background: white;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .checkin-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            padding: 8px;
+            border-radius: 6px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .list-cinza {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            color: #666;
+        }
+
+        .checkin-btn {
+            margin-top: 8px;
+            padding: 8px 12px;
+            border: none;
+            background-color: #5a172d;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .checkin-btn:hover {
+            background-color: #3d0719;
+        }
+
+        .qrcode-img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            display: none;
+        }
+    </style>
     <th:block th:replace="~{fragments/config :: config}"></th:block>
-    <!-- Biblioteca JS para gerar QR codes -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <title>Minhas Reservas</title>
 </head>
 <body>
@@ -19,57 +106,59 @@
         <div class="cards-container">
             <!-- Reserva estática 1: Paris -->
             <div class="card">
-                <!-- Imagem do destino -->
                 <img src="/img/gallery/gallery-1.jpg" alt="Imagem do destino" class="card-image">
 
                 <div class="card-content">
-                    <h2>Paris</h2>
-                    <p>Data: 15/10/2023</p>
+                    <h3>Paris</h3>
+                    <p>Data: 15/01/2026</p>
                 </div>
 
-                <!-- Botão de Check-in -->
-                <button class="checkin-btn" onclick="toggleCheckin(this, 'Paris', '15/10/2023', 'qrcode-canvas-0')">
+                <button class="checkin-btn" onclick="toggleCheckin(this, 'qrcode-img-0')">
                     Check-in
                 </button>
 
-                <!-- Seção de check-in oculta para este card -->
-                <div class="checkin-list" style="display: none;">
+                <div class="checkin-list">
                     <h3>Informações do Check-in</h3>
                     <ul class="list-cinza">
                         <li>Confirme sua identidade</li>
                         <li>Verifique os documentos</li>
                         <li>Baixe o voucher</li>
                     </ul>
-                    <!-- Canvas único para o QR code desta reserva -->
-                    <canvas id="qrcode-canvas-0" class="qrcode-canvas"></canvas>
+
+                    <img id="qrcode-img-0"
+                         class="qrcode-img"
+                         th:src="@{/img/qrcode.png}"
+                         src="/img/qrcode.png"
+                         alt="qrcode">
                 </div>
             </div>
 
             <!-- Reserva estática 2: Nova York -->
             <div class="card">
-                <!-- Imagem do destino -->
-                <img src="/img/gallery/gallery-1.jpg"  alt="Imagem do destino" class="card-image">
+                <img src="/img/gallery/gallery-2.jpg" alt="Imagem do destino" class="card-image">
 
                 <div class="card-content">
-                    <h2>Nova York</h2>
-                    <p>Data: 20/11/2023</p>
+                    <h3>Nova York</h3>
+                    <p>Data: 20/12/2025</p>
                 </div>
 
-                <!-- Botão de Check-in -->
-                <button class="checkin-btn" onclick="toggleCheckin(this, 'Nova York', '20/11/2023', 'qrcode-canvas-1')">
+                <button class="checkin-btn" onclick="toggleCheckin(this, 'qrcode-img-1')">
                     Check-in
                 </button>
 
-                <!-- Seção de check-in oculta para este card -->
-                <div class="checkin-list" style="display: none;">
+                <div class="checkin-list">
                     <h3>Informações do Check-in</h3>
                     <ul class="list-cinza">
                         <li>Confirme sua identidade</li>
                         <li>Verifique os documentos</li>
                         <li>Baixe o voucher</li>
                     </ul>
-                    <!-- Canvas único para o QR code desta reserva -->
-                    <canvas id="qrcode-canvas-1" class="qrcode-canvas"></canvas>
+
+                    <img id="qrcode-img-1"
+                         class="qrcode-img"
+                         th:src="@{/img/qrcode.png}"
+                         src="/img/qrcode.png"
+                         alt="qrcode">
                 </div>
             </div>
         </div>
@@ -79,33 +168,26 @@
 <div th:replace="~{fragments/footer :: footer}"></div>
 
 <script>
-    function toggleCheckin(button, nome, data, canvasId) {
+    function toggleCheckin(button, imgId) {
         const card = button.parentElement;
         const checkinSection = card.querySelector('.checkin-list');
+        const img = document.getElementById(imgId);
 
-        // Se a seção já estiver visível, oculta e para a execução
-        if (checkinSection.style.display === 'flex') {
+        const isVisible = (checkinSection.style.display === 'flex') || (window.getComputedStyle(checkinSection).display === 'flex');
+
+        if (isVisible) {
             checkinSection.style.display = 'none';
+            if (img) img.style.display = 'none';
             return;
         }
 
-        // Oculta todas as outras seções de check-in abertas
-        document.querySelectorAll('.checkin-list').forEach(section => {
-            section.style.display = 'none';
-        });
+        document.querySelectorAll('.checkin-list').forEach(section => section.style.display = 'none');
+        document.querySelectorAll('.qrcode-img').forEach(i => i.style.display = 'none');
 
-        // Gera o QR code no canvas específico
-        const qrText = 'Destino: ' + nome + ' | Data: ' + data;
-        const canvas = document.getElementById(canvasId);
-        QRCode.toCanvas(canvas, qrText, { width: 120, height: 120 }, function (error) {
-            if (error) console.error('Erro ao gerar QR code:', error);
-        });
+        if (img) img.style.display = 'block';
 
-        // Mostra a seção de check-in
         checkinSection.style.display = 'flex';
-
-        // Rola a tela para a seção que foi aberta
-        checkinSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        // scrollIntoView removido para evitar movimento da página
     }
 </script>
 

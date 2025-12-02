@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="scripts">
+    <!-- index.html - home-->
+    <!-- Js Plugins -->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery.nice-select.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/jquery.slicknav.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
+
+
+
+
+
+    <!-- alterar-cliente -->
+    <script>
+
+        $(document).ready(function () {
+            // Adiciona e remove dinamicamente os navios
+            $('.dynamic-update-rows').on('click', 'button[data-dynamic-update-rows-url]', function(){
+                let url = $(this).data('dynamic-update-rows-url');
+
+                let formData = $('form').serializeArray();
+                let param = {};
+                param["name"] = $(this).attr('name');
+                param["value"] = $(this).val();
+                formData.push(param);
+
+                // Atualiaza a seção dinâmica
+                $('#dynamicTableContents').load(url, formData);
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            const cepInput = document.getElementById('cep');
+            const ruaInput = document.getElementById('rua');
+            const bairroInput = document.getElementById('bairro');
+            const cidadeInput = document.getElementById('cidade');
+            const ufInput = document.getElementById('uf');
+            const numeroInput = document.getElementById('numero'); // Para focar após preenchimento
+
+            if (cepInput) {
+                cepInput.addEventListener('blur', function () {
+                    const cepValue = this.value.replace(/\D/g, ''); // Remove non-digits
+
+                    if (cepValue.length === 8) {
+                        // Limpa campos antes de nova consulta (exceto CEP)
+                        ruaInput.value = '';
+                        bairroInput.value = '';
+                        cidadeInput.value = '';
+                        ufInput.value = '';
+
+                        // Mostra "carregando" nos campos
+                        ruaInput.value = '...';
+                        bairroInput.value = '...';
+                        cidadeInput.value = '...';
+                        ufInput.value = '...';
+
+
+                        fetch(`https://viacep.com.br/ws/${cepValue}/json/`)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Erro na requisição: ' + response.status);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.erro) {
+                                    alert('CEP não encontrado.');
+                                    // Limpa campos se CEP não encontrado
+                                    ruaInput.value = '';
+                                    bairroInput.value = '';
+                                    cidadeInput.value = '';
+                                    ufInput.value = '';
+                                    cepInput.focus();
+                                } else {
+                                    ruaInput.value = data.logradouro || '';
+                                    bairroInput.value = data.bairro || '';
+                                    cidadeInput.value = data.localidade || '';
+                                    ufInput.value = data.uf || '';
+
+                                    // Se a rua foi preenchida, foca no número
+                                    if (data.logradouro) {
+                                        numeroInput.focus();
+                                    } else {
+                                        // Se a rua não veio (CEP geral da cidade), foca na rua
+                                        ruaInput.focus();
+                                    }
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Falha ao buscar CEP:', error);
+                                alert('Não foi possível consultar o CEP. Verifique sua conexão ou tente novamente.');
+                                // Limpa campos em caso de erro
+                                ruaInput.value = '';
+                                bairroInput.value = '';
+                                cidadeInput.value = '';
+                                ufInput.value = '';
+                            });
+                    } else if (cepValue.length > 0) { // Se digitou algo mas não tem 8 dígitos
+                        alert('CEP inválido. Deve conter 8 dígitos.');
+                        // Limpa campos se CEP inválido
+                        ruaInput.value = '';
+                        bairroInput.value = '';
+                        cidadeInput.value = '';
+                        ufInput.value = '';
+                    } else { // Se o campo CEP está vazio, limpa os outros
+                        ruaInput.value = '';
+                        bairroInput.value = '';
+                        cidadeInput.value = '';
+                        ufInput.value = '';
+                    }
+                });
+            }
+
+            // Adiciona uma máscara simples para o CEP (opcional, mas melhora UX)
+            if (cepInput) {
+                cepInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+                    if (value.length > 5) {
+                        value = value.substring(0, 5) + '-' + value.substring(5, 8);
+                    }
+                    e.target.value = value;
+                });
+            }
+        });
+    </script>
+
+    <!-- cadastro-cliente -->
+    <script>
+        const cpfInput = document.getElementById('cpf');
+        const telefoneInput = document.getElementById('telefone');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const cepInput = document.getElementById('cep');
+            const ruaInput = document.getElementById('rua');
+            const bairroInput = document.getElementById('bairro');
+            const cidadeInput = document.getElementById('cidade');
+            const ufInput = document.getElementById('uf');
+            const numeroInput = document.getElementById('numero');
+            const cpfInput = document.getElementById('cpf');
+            const telefoneInput = document.getElementById('telefone');
+
+            // VIA CEP Script
+            if (cepInput) {
+                cepInput.addEventListener('blur', function () {
+                    const cepValue = this.value.replace(/\D/g, ''); // Remove non-digits
+
+                    if (cepValue.length === 8) {
+                        ruaInput.value = '...';
+                        bairroInput.value = '...';
+                        cidadeInput.value = '...';
+                        ufInput.value = '...';
+
+                        fetch(`https://viacep.com.br/ws/${cepValue}/json/`)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Erro na requisição: ' + response.status);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.erro) {
+                                    alert('CEP não encontrado.');
+                                    ruaInput.value = '';
+                                    bairroInput.value = '';
+                                    cidadeInput.value = '';
+                                    ufInput.value = '';
+                                    cepInput.focus();
+                                } else {
+                                    ruaInput.value = data.logradouro || '';
+                                    bairroInput.value = data.bairro || '';
+                                    cidadeInput.value = data.localidade || '';
+                                    ufInput.value = data.uf || '';
+
+                                    if (data.logradouro) {
+                                        numeroInput.focus();
+                                    } else {
+                                        ruaInput.focus();
+                                    }
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Falha ao buscar CEP:', error);
+                                alert('Não foi possível consultar o CEP. Verifique sua conexão ou tente novamente.');
+                                ruaInput.value = '';
+                                bairroInput.value = '';
+                                cidadeInput.value = '';
+                                ufInput.value = '';
+                            });
+                    } else if (cepValue.length > 0) {
+                        alert('CEP inválido. Deve conter 8 dígitos.');
+                        ruaInput.value = '';
+                        bairroInput.value = '';
+                        cidadeInput.value = '';
+                        ufInput.value = '';
+                    } else {
+                        ruaInput.value = '';
+                        bairroInput.value = '';
+                        cidadeInput.value = '';
+                        ufInput.value = '';
+                    }
+                });
+            }
+
+            // Máscara para CEP (formato XXXXX-XXX)
+            if (cepInput) {
+                cepInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 8) {
+                        value = value.substring(0, 8);
+                    }
+                    if (value.length > 5) {
+                        value = value.substring(0, 5) + '-' + value.substring(5);
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            // Máscara para CPF (formato XXX.XXX.XXX-XX)
+            if (cpfInput) {
+                cpfInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+                    value = value.substring(0, 11); // Limita a 11 dígitos
+
+                    let maskedValue = '';
+                    if (value.length > 0) {
+                        maskedValue = value.substring(0, Math.min(3, value.length));
+                    }
+                    if (value.length > 3) {
+                        maskedValue += '.' + value.substring(3, Math.min(6, value.length));
+                    }
+                    if (value.length > 6) {
+                        maskedValue += '.' + value.substring(6, Math.min(9, value.length));
+                    }
+                    if (value.length > 9) {
+                        maskedValue += '-' + value.substring(9, Math.min(11, value.length));
+                    }
+                    e.target.value = maskedValue;
+                });
+            }
+
+            // Máscara para Telefone (formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX)
+            if (telefoneInput) {
+                telefoneInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, "");
+                    value = value.substring(0, 11); // Limita a 11 dígitos (para celular com 9 dígitos + DDD)
+
+                    if (value.length === 0) {
+                        e.target.value = '';
+                        return;
+                    }
+
+                    if (value.length <= 2) {
+                        e.target.value = '(' + value;
+                    } else if (value.length <= 6) { // Para (XX) XXXX
+                        e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
+                    } else if (value.length <= 10) { // Para (XX) XXXX-XXXX (telefone fixo)
+                        e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2, 6) + '-' + value.substring(6);
+                    } else { // Para (XX) XXXXX-XXXX (celular)
+                        e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2, 7) + '-' + value.substring(7);
+                    }
+                });
+            }
+        });
+
+
+    </script>
+
+    <!-- cadastro-navio -->
+    <script>
+        const cpfInput = document.getElementById('cpf');
+        const telefoneInput = document.getElementById('telefone');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const cepInput = document.getElementById('cep');
+            const ruaInput = document.getElementById('rua');
+            const bairroInput = document.getElementById('bairro');
+            const cidadeInput = document.getElementById('cidade');
+            const ufInput = document.getElementById('uf');
+            const numeroInput = document.getElementById('numero');
+            const cpfInput = document.getElementById('cpf');
+            const telefoneInput = document.getElementById('telefone');
+
+            // VIA CEP Script
+            if (cepInput) {
+                cepInput.addEventListener('blur', function () {
+                    const cepValue = this.value.replace(/\D/g, ''); // Remove non-digits
+
+                    if (cepValue.length === 8) {
+                        ruaInput.value = '...';
+                        bairroInput.value = '...';
+                        cidadeInput.value = '...';
+                        ufInput.value = '...';
+
+                        fetch(`https://viacep.com.br/ws/${cepValue}/json/`)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Erro na requisição: ' + response.status);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.erro) {
+                                    alert('CEP não encontrado.');
+                                    ruaInput.value = '';
+                                    bairroInput.value = '';
+                                    cidadeInput.value = '';
+                                    ufInput.value = '';
+                                    cepInput.focus();
+                                } else {
+                                    ruaInput.value = data.logradouro || '';
+                                    bairroInput.value = data.bairro || '';
+                                    cidadeInput.value = data.localidade || '';
+                                    ufInput.value = data.uf || '';
+
+                                    if (data.logradouro) {
+                                        numeroInput.focus();
+                                    } else {
+                                        ruaInput.focus();
+                                    }
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Falha ao buscar CEP:', error);
+                                alert('Não foi possível consultar o CEP. Verifique sua conexão ou tente novamente.');
+                                ruaInput.value = '';
+                                bairroInput.value = '';
+                                cidadeInput.value = '';
+                                ufInput.value = '';
+                            });
+                    } else if (cepValue.length > 0) {
+                        alert('CEP inválido. Deve conter 8 dígitos.');
+                        ruaInput.value = '';
+                        bairroInput.value = '';
+                        cidadeInput.value = '';
+                        ufInput.value = '';
+                    } else {
+                        ruaInput.value = '';
+                        bairroInput.value = '';
+                        cidadeInput.value = '';
+                        ufInput.value = '';
+                    }
+                });
+            }
+
+            // Máscara para CEP (formato XXXXX-XXX)
+            if (cepInput) {
+                cepInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 8) {
+                        value = value.substring(0, 8);
+                    }
+                    if (value.length > 5) {
+                        value = value.substring(0, 5) + '-' + value.substring(5);
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            // Máscara para CPF (formato XXX.XXX.XXX-XX)
+            if (cpfInput) {
+                cpfInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+                    value = value.substring(0, 11); // Limita a 11 dígitos
+
+                    let maskedValue = '';
+                    if (value.length > 0) {
+                        maskedValue = value.substring(0, Math.min(3, value.length));
+                    }
+                    if (value.length > 3) {
+                        maskedValue += '.' + value.substring(3, Math.min(6, value.length));
+                    }
+                    if (value.length > 6) {
+                        maskedValue += '.' + value.substring(6, Math.min(9, value.length));
+                    }
+                    if (value.length > 9) {
+                        maskedValue += '-' + value.substring(9, Math.min(11, value.length));
+                    }
+                    e.target.value = maskedValue;
+                });
+            }
+
+            // Máscara para Telefone (formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX)
+            if (telefoneInput) {
+                telefoneInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, "");
+                    value = value.substring(0, 11); // Limita a 11 dígitos (para celular com 9 dígitos + DDD)
+
+                    if (value.length === 0) {
+                        e.target.value = '';
+                        return;
+                    }
+
+                    if (value.length <= 2) {
+                        e.target.value = '(' + value;
+                    } else if (value.length <= 6) { // Para (XX) XXXX
+                        e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
+                    } else if (value.length <= 10) { // Para (XX) XXXX-XXXX (telefone fixo)
+                        e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2, 6) + '-' + value.substring(6);
+                    } else { // Para (XX) XXXXX-XXXX (celular)
+                        e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2, 7) + '-' + value.substring(7);
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!-- cadastro-pacote -->
+    <script>
+        const cpfInput = document.getElementById('cpf');
+        const telefoneInput = document.getElementById('telefone');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const cepInput = document.getElementById('cep');
+            const ruaInput = document.getElementById('rua');
+            const bairroInput = document.getElementById('bairro');
+            const cidadeInput = document.getElementById('cidade');
+            const ufInput = document.getElementById('uf');
+            const numeroInput = document.getElementById('numero');
+            const cpfInput = document.getElementById('cpf');
+            const telefoneInput = document.getElementById('telefone');
+
+            // VIA CEP Script
+            if (cepInput) {
+                cepInput.addEventListener('blur', function () {
+                    const cepValue = this.value.replace(/\D/g, ''); // Remove non-digits
+
+                    if (cepValue.length === 8) {
+                        ruaInput.value = '...';
+                        bairroInput.value = '...';
+                        cidadeInput.value = '...';
+                        ufInput.value = '...';
+
+                        fetch(`https://viacep.com.br/ws/${cepValue}/json/`)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Erro na requisição: ' + response.status);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.erro) {
+                                    alert('CEP não encontrado.');
+                                    ruaInput.value = '';
+                                    bairroInput.value = '';
+                                    cidadeInput.value = '';
+                                    ufInput.value = '';
+                                    cepInput.focus();
+                                } else {
+                                    ruaInput.value = data.logradouro || '';
+                                    bairroInput.value = data.bairro || '';
+                                    cidadeInput.value = data.localidade || '';
+                                    ufInput.value = data.uf || '';
+
+                                    if (data.logradouro) {
+                                        numeroInput.focus();
+                                    } else {
+                                        ruaInput.focus();
+                                    }
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Falha ao buscar CEP:', error);
+                                alert('Não foi possível consultar o CEP. Verifique sua conexão ou tente novamente.');
+                                ruaInput.value = '';
+                                bairroInput.value = '';
+                                cidadeInput.value = '';
+                                ufInput.value = '';
+                            });
+                    } else if (cepValue.length > 0) {
+                        alert('CEP inválido. Deve conter 8 dígitos.');
+                        ruaInput.value = '';
+                        bairroInput.value = '';
+                        cidadeInput.value = '';
+                        ufInput.value = '';
+                    } else {
+                        ruaInput.value = '';
+                        bairroInput.value = '';
+                        cidadeInput.value = '';
+                        ufInput.value = '';
+                    }
+                });
+            }
+
+            // Máscara para CEP (formato XXXXX-XXX)
+            if (cepInput) {
+                cepInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 8) {
+                        value = value.substring(0, 8);
+                    }
+                    if (value.length > 5) {
+                        value = value.substring(0, 5) + '-' + value.substring(5);
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            // Máscara para CPF (formato XXX.XXX.XXX-XX)
+            if (cpfInput) {
+                cpfInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+                    value = value.substring(0, 11); // Limita a 11 dígitos
+
+                    let maskedValue = '';
+                    if (value.length > 0) {
+                        maskedValue = value.substring(0, Math.min(3, value.length));
+                    }
+                    if (value.length > 3) {
+                        maskedValue += '.' + value.substring(3, Math.min(6, value.length));
+                    }
+                    if (value.length > 6) {
+                        maskedValue += '.' + value.substring(6, Math.min(9, value.length));
+                    }
+                    if (value.length > 9) {
+                        maskedValue += '-' + value.substring(9, Math.min(11, value.length));
+                    }
+                    e.target.value = maskedValue;
+                });
+            }
+
+            // Máscara para Telefone (formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX)
+            if (telefoneInput) {
+                telefoneInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, "");
+                    value = value.substring(0, 11); // Limita a 11 dígitos (para celular com 9 dígitos + DDD)
+
+                    if (value.length === 0) {
+                        e.target.value = '';
+                        return;
+                    }
+
+                    if (value.length <= 2) {
+                        e.target.value = '(' + value;
+                    } else if (value.length <= 6) { // Para (XX) XXXX
+                        e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
+                    } else if (value.length <= 10) { // Para (XX) XXXX-XXXX (telefone fixo)
+                        e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2, 6) + '-' + value.substring(6);
+                    } else { // Para (XX) XXXXX-XXXX (celular)
+                        e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2, 7) + '-' + value.substring(7);
+                    }
+                });
+            }
+        });
+    </script>
+
+    <!--cadastro-quarto-->
+    <script>
+        const cpfInput = document.getElementById('cpf');
+        const telefoneInput = document.getElementById('telefone');
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const cepInput = document.getElementById('cep');
+            const ruaInput = document.getElementById('rua');
+            const bairroInput = document.getElementById('bairro');
+            const cidadeInput = document.getElementById('cidade');
+            const ufInput = document.getElementById('uf');
+            const numeroInput = document.getElementById('numero');
+            const cpfInput = document.getElementById('cpf');
+            const telefoneInput = document.getElementById('telefone');
+
+            // VIA CEP Script
+            if (cepInput) {
+                cepInput.addEventListener('blur', function () {
+                    const cepValue = this.value.replace(/\D/g, ''); // Remove non-digits
+
+                    if (cepValue.length === 8) {
+                        ruaInput.value = '...';
+                        bairroInput.value = '...';
+                        cidadeInput.value = '...';
+                        ufInput.value = '...';
+
+                        fetch(`https://viacep.com.br/ws/${cepValue}/json/`)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Erro na requisição: ' + response.status);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                if (data.erro) {
+                                    alert('CEP não encontrado.');
+                                    ruaInput.value = '';
+                                    bairroInput.value = '';
+                                    cidadeInput.value = '';
+                                    ufInput.value = '';
+                                    cepInput.focus();
+                                } else {
+                                    ruaInput.value = data.logradouro || '';
+                                    bairroInput.value = data.bairro || '';
+                                    cidadeInput.value = data.localidade || '';
+                                    ufInput.value = data.uf || '';
+
+                                    if (data.logradouro) {
+                                        numeroInput.focus();
+                                    } else {
+                                        ruaInput.focus();
+                                    }
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Falha ao buscar CEP:', error);
+                                alert('Não foi possível consultar o CEP. Verifique sua conexão ou tente novamente.');
+                                ruaInput.value = '';
+                                bairroInput.value = '';
+                                cidadeInput.value = '';
+                                ufInput.value = '';
+                            });
+                    } else if (cepValue.length > 0) {
+                        alert('CEP inválido. Deve conter 8 dígitos.');
+                        ruaInput.value = '';
+                        bairroInput.value = '';
+                        cidadeInput.value = '';
+                        ufInput.value = '';
+                    } else {
+                        ruaInput.value = '';
+                        bairroInput.value = '';
+                        cidadeInput.value = '';
+                        ufInput.value = '';
+                    }
+                });
+            }
+
+            // Máscara para CEP (formato XXXXX-XXX)
+            if (cepInput) {
+                cepInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 8) {
+                        value = value.substring(0, 8);
+                    }
+                    if (value.length > 5) {
+                        value = value.substring(0, 5) + '-' + value.substring(5);
+                    }
+                    e.target.value = value;
+                });
+            }
+
+            // Máscara para CPF (formato XXX.XXX.XXX-XX)
+            if (cpfInput) {
+                cpfInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+                    value = value.substring(0, 11); // Limita a 11 dígitos
+
+                    let maskedValue = '';
+                    if (value.length > 0) {
+                        maskedValue = value.substring(0, Math.min(3, value.length));
+                    }
+                    if (value.length > 3) {
+                        maskedValue += '.' + value.substring(3, Math.min(6, value.length));
+                    }
+                    if (value.length > 6) {
+                        maskedValue += '.' + value.substring(6, Math.min(9, value.length));
+                    }
+                    if (value.length > 9) {
+                        maskedValue += '-' + value.substring(9, Math.min(11, value.length));
+                    }
+                    e.target.value = maskedValue;
+                });
+            }
+
+            // Máscara para Telefone (formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX)
+            if (telefoneInput) {
+                telefoneInput.addEventListener('input', function (e) {
+                    let value = e.target.value.replace(/\D/g, "");
+                    value = value.substring(0, 11); // Limita a 11 dígitos (para celular com 9 dígitos + DDD)
+
+                    if (value.length === 0) {
+                        e.target.value = '';
+                        return;
+                    }
+
+                    if (value.length <= 2) {
+                        e.target.value = '(' + value;
+                    } else if (value.length <= 6) { // Para (XX) XXXX
+                        e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2);
+                    } else if (value.length <= 10) { // Para (XX) XXXX-XXXX (telefone fixo)
+                        e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2, 6) + '-' + value.substring(6);
+                    } else { // Para (XX) XXXXX-XXXX (celular)
+                        e.target.value = '(' + value.substring(0, 2) + ') ' + value.substring(2, 7) + '-' + value.substring(7);
+                    }
+                });
+            }
+        });
+
+
+        //Mensagem de confirmação ao excluir
+
+
+
+
+    </script>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Vittalis - Login</title>
+    <link rel="icon" type="imagem/png" href="/img/sub-logo1.png">
+    <link rel="stylesheet" href="/css/login.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+</head>
+
+<body>
+<form th:action="@{login}" method="POST">
+
+    <!-- Mensagem carregada após a alteração ou exclusão dos dados-->
+    <div class="alert alert-success alert-dismissible fade show" th:if="${mensagem}">
+        <!--/*@thymesVar id="mensagem" type=""*/-->
+        <span th:text="${mensagem}"></span>
+    </div>
+
+    <div class="principal-login">
+        <div>
+            <img src="/img/img-vittalis.png" width="450" height="525px"/>
+        </div>
+        <div class="login-form">
+            <h1>Login</h1>
+            <div class="login-form-usuario">
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" name="username" placeholder="Ex: user123@com.br" required/>
+            </div>
+            <div class="login-form-senha">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" placeholder="*******" required/>
+            </div>
+            <p href="./esqueciSenha">Esqueci a senha?</p>
+            <div class="buttons">
+                <!--            <button class="buttonLogin1"><a href="#" class="a1">Entrar</a></button>-->
+                <input type="submit" class="buttonLogin1" value="Entrar" />
+                <button onclick="window.location.href='/cliente/cadastro'" class="buttonLogin2">Cadastre-se</button>
+            </div>
+        </div>
+
+
+    </div>
+</form>
+</body>
+</html>

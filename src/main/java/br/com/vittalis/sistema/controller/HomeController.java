@@ -37,17 +37,16 @@ public class HomeController {
         return "pages/reserva/reserva-pacote";
     }
 
-    @GetMapping("/parceiros")
-        public String parceiros() {
-        return "pages/parceiros/listagem";
-    }
-
-    @GetMapping("/lei")
+    @GetMapping("/pages/lei")
         public String lei() {
             return "pages/lei/lei";
-
-
     }
+
+    @GetMapping("/checkin")
+        public String checkin(){
+            return "pages/cliente/checkin";
+        }
+
 
 
 }

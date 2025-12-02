@@ -10,7 +10,7 @@
 
 <body>
 
-<div th:replace="fragments/header-adm :: header"></div>
+<div th:replace="fragments/header :: header"></div>
 <main>
     <h2 class="formulario d-flex justify-content-center mb-4">Formulário de Cadastro de Pacotes</h2>
     <br>
@@ -91,7 +91,7 @@
             <br>
             <!-- Navios -->
             <h3 class="dados">Escolha do Navio</h3>
-                <br>
+            <br>
             <div class="row mb-2">
                 <!-- Coluna da esquerda -->
                 <div class="col-md-6">
@@ -107,8 +107,10 @@
                                     th:text="${navio.nomeNavio}">
                             </option>
                         </select>
-                        <label for="vagas" class="form-label">Vagas disponíveis:</label>
-                        <input id="vagas" type="text" placeholder="Vagas disponíveis" class="form-control" th:field="*{vagasDisponiveis}">
+                        <div class="d-flex align-items-center gap-2 mt-2">
+                            <label for="vagas" class="form-label mb-0">Vagas disponíveis:</label>
+                            <input id="vagas" type="text" placeholder="Vagas disponíveis" class="form-control" th:field="*{vagasDisponiveis}" style="max-width: 150px" readonly>
+                        </div>
                     </div>
 
                     <!-- Campo Vagas -->
@@ -194,146 +196,159 @@
 <div th:replace="fragments/scripts :: scripts"></div>
 
 <script>
-$(document).ready(function() {
-    let imagensDestaque = []; // Array para controlar qual imagem é destaque
-    let arquivosSelecionados = []; // Array para armazenar os arquivos
-    
-    // Função para processar arquivos
-    function processarArquivos(files) {
-        const previewContainer = $('#previewContainer');
-        const previewList = $('#imagePreviewList');
-        
-        // Limpar preview anterior
-        previewList.empty();
-        imagensDestaque = [];
-        arquivosSelecionados = Array.from(files);
-        
-        if (files.length > 0) {
-            previewContainer.show();
-            
-            Array.from(files).forEach((file, index) => {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    
-                    reader.onload = function(e) {
-                        const imageDiv = $(`
+    $(document).ready(function() {
+        let imagensDestaque = []; // Array para controlar qual imagem é destaque
+        let arquivosSelecionados = []; // Array para armazenar os arquivos
+
+        // Função para processar arquivos
+        function processarArquivos(files) {
+            const previewContainer = $('#previewContainer');
+            const previewList = $('#imagePreviewList');
+
+            // Limpar preview anterior
+            previewList.empty();
+            imagensDestaque = [];
+            arquivosSelecionados = Array.from(files);
+
+            if (files.length > 0) {
+                previewContainer.show();
+
+                Array.from(files).forEach((file, index) => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+
+                        reader.onload = function(e) {
+                            const imageDiv = $(`
                             <div class="image-preview-item" data-index="${index}">
                                 <img src="${e.target.result}" class="preview-image">
                                 <div class="destaque-badge">DESTAQUE</div>
                                 <div class="image-name">${file.name}</div>
                             </div>
                         `);
-                        
-                        previewList.append(imageDiv);
-                        
-                        // Marcar a primeira imagem como destaque por padrão
-                        if (index === 0) {
-                            imagensDestaque[index] = true;
-                            imageDiv.find('.preview-image').addClass('destaque');
-                            imageDiv.find('.destaque-badge').addClass('show');
-                        } else {
-                            imagensDestaque[index] = false;
-                        }
-                    };
-                    
-                    reader.readAsDataURL(file);
-                }
+
+                            previewList.append(imageDiv);
+
+                            // Marcar a primeira imagem como destaque por padrão
+                            if (index === 0) {
+                                imagensDestaque[index] = true;
+                                imageDiv.find('.preview-image').addClass('destaque');
+                                imageDiv.find('.destaque-badge').addClass('show');
+                            } else {
+                                imagensDestaque[index] = false;
+                            }
+                        };
+
+                        reader.readAsDataURL(file);
+                    }
+                });
+            } else {
+                previewContainer.hide();
+            }
+        }
+
+        // Event listener para input file
+        $('#imagensPacote').on('change', function(e) {
+            processarArquivos(e.target.files);
+        });
+
+        // Atualiza as vagas ao selecionar o navio
+        $('#navio').on('change', function() {
+            const navioId = $(this).val();
+            if (!navioId) {
+                $('#vagas').val('');
+                return;
+            }
+            $.get(`/api/navios/${navioId}/vagas`, function(data) {
+                $('#vagas').val(data);
+            }).fail(function() {
+                $('#vagas').val('');
             });
-        } else {
-            previewContainer.hide();
-        }
-    }
-    
-    // Event listener para input file
-    $('#imagensPacote').on('change', function(e) {
-        processarArquivos(e.target.files);
-    });
-    
-    // Drag and Drop functionality
-    const uploadContainer = $('.image-upload-container');
-    
-    uploadContainer.on('dragover', function(e) {
-        e.preventDefault();
-        $(this).addClass('dragover');
-    });
-    
-    uploadContainer.on('dragleave', function(e) {
-        e.preventDefault();
-        $(this).removeClass('dragover');
-    });
-    
-    uploadContainer.on('drop', function(e) {
-        e.preventDefault();
-        $(this).removeClass('dragover');
-        
-        const files = e.originalEvent.dataTransfer.files;
-        const input = $('#imagensPacote')[0];
-        input.files = files;
-        processarArquivos(files);
-    });
-    
-    // Evento para selecionar imagem como destaque
-    $(document).on('click', '.image-preview-item', function() {
-        const index = $(this).data('index');
-        
-        // Remover destaque de todas as imagens
-        $('.image-preview-item').each(function() {
-            $(this).find('.preview-image').removeClass('destaque');
-            $(this).find('.destaque-badge').removeClass('show');
-            imagensDestaque[$(this).data('index')] = false;
-        });
-        
-        // Marcar a imagem clicada como destaque
-        $(this).find('.preview-image').addClass('destaque');
-        $(this).find('.destaque-badge').addClass('show');
-        imagensDestaque[index] = true;
-
-        // Adicionar campos hidden com informações de destaque
-        imagensDestaque.forEach((isDestaque, index) => {
-            const valor = isDestaque ? 'true' : 'false';
-            console.log(`Enviando imagemDestaque[${index}] = ${valor}`);
-
-            $('<input>').attr({
-                type: 'hidden',
-                name: `imagemDestaque[${index}]`,
-                value: valor
-            }).appendTo('.registration-form');
         });
 
-        console.log(`Imagem ${index} marcada como destaque. Array atual:`, imagensDestaque);
-    });
-    
-    // Interceptar o submit do formulário para incluir informações de destaque
-    $('.registration-form').on('submit', function(e) {
-        // Validar se pelo menos uma imagem foi selecionada
-        if (arquivosSelecionados.length === 0) {
+        // Drag and Drop functionality
+        const uploadContainer = $('.image-upload-container');
+
+        uploadContainer.on('dragover', function(e) {
             e.preventDefault();
-            alert('Por favor, selecione pelo menos uma imagem para o pacote.');
-            return false;
-        }
-        
-        // Debug: verificar array antes de enviar
-        console.log('Array imagensDestaque antes do envio:', imagensDestaque);
-        
+            $(this).addClass('dragover');
+        });
 
+        uploadContainer.on('dragleave', function(e) {
+            e.preventDefault();
+            $(this).removeClass('dragover');
+        });
+
+        uploadContainer.on('drop', function(e) {
+            e.preventDefault();
+            $(this).removeClass('dragover');
+
+            const files = e.originalEvent.dataTransfer.files;
+            const input = $('#imagensPacote')[0];
+            input.files = files;
+            processarArquivos(files);
+        });
+
+        // Evento para selecionar imagem como destaque
+        $(document).on('click', '.image-preview-item', function() {
+            const index = $(this).data('index');
+
+            // Remover destaque de todas as imagens
+            $('.image-preview-item').each(function() {
+                $(this).find('.preview-image').removeClass('destaque');
+                $(this).find('.destaque-badge').removeClass('show');
+                imagensDestaque[$(this).data('index')] = false;
+            });
+
+            // Marcar a imagem clicada como destaque
+            $(this).find('.preview-image').addClass('destaque');
+            $(this).find('.destaque-badge').addClass('show');
+            imagensDestaque[index] = true;
+            console.log(`Imagem ${index} marcada como destaque. Array atual:`, imagensDestaque);
+        });
+
+        // Interceptar o submit do formulário para incluir informações de destaque
+        $('.registration-form').on('submit', function(e) {
+            // Validar se pelo menos uma imagem foi selecionada
+            if (arquivosSelecionados.length === 0) {
+                e.preventDefault();
+                alert('Por favor, selecione pelo menos uma imagem para o pacote.');
+                return false;
+            }
+
+            // Debug: verificar array antes de enviar
+            console.log('Array imagensDestaque antes do envio:', imagensDestaque);
+
+            // Remover campos anteriores para evitar duplicação
+            $('.registration-form input[name="imagemDestaque"]').remove();
+
+            // Incluir informações de destaque como array de parâmetros
+            imagensDestaque.forEach((isDestaque) => {
+                const valor = isDestaque ? 'true' : 'false';
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'imagemDestaque',
+                    value: valor
+                }).appendTo('.registration-form');
+            });
+
+        });
     });
-});
 </script>
 
 <style>
-.image-preview-item:hover {
-    transform: scale(1.05);
-    transition: transform 0.2s ease;
-}
+    .image-preview-item:hover {
+        transform: scale(1.05);
+        transition: transform 0.2s ease;
+    }
 
-.image-preview-item {
-    transition: transform 0.2s ease;
-}
+    .image-preview-item {
+        transition: transform 0.2s ease;
+    }
 
-#imagePreviewList {
-    max-height: 400px;
-    overflow-y: auto;
-}
+    #imagePreviewList {
+        max-height: 400px;
+        overflow-y: auto;
+    }
 </style>
 </body>
 </html>
