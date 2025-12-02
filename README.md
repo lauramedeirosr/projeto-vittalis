@@ -1,10 +1,5 @@
 # Projeto Vittalis
 
-Breve explicação: abaixo está um `README.md` simples com uma introdução ao projeto e a lista de tecnologias. Copie o conteúdo para `README.md`.
-
-```markdown
-# Vittalis
-
 Descrição curta
 - Vittalis é uma aplicação web monolítica que combina backend em Java (Spring Boot) e frontend em JavaScript. O objetivo é fornecer uma base para desenvolvimento rápido de APIs e interface cliente.
 
@@ -43,4 +38,4 @@ Vittalis reúne um backend em Spring Boot com um frontend em JavaScript (SPA). O
 
 ## Licença
 Adicionar `LICENSE` conforme necessário (ex.: MIT).
-```
+
