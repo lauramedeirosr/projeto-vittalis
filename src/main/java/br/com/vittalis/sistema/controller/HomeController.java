@@ -7,10 +7,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
 @Controller
 @RequestMapping("/home")
 public class HomeController {
+
     @Autowired
     private PacoteRepository pacoteRepository;
 
@@ -22,31 +22,29 @@ public class HomeController {
         return "home/index";
     }
 
+
     @GetMapping("/contato")
     public String contato() {
         return "home/contato";
     }
 
     @GetMapping("/pacote")
-        public String pacoteInfo(){
+    public String pacoteInfo(){
         return "home/info-pacote";
     }
 
     @GetMapping("/reserva")
-        public String reserva() {
+    public String reserva() {
         return "pages/reserva/reserva-pacote";
     }
 
-    @GetMapping("/pages/lei")
-        public String lei() {
-            return "pages/lei/lei";
+    @GetMapping("/lei")
+    public String lei() {
+        return "pages/lei/lei";
     }
 
     @GetMapping("/checkin")
-        public String checkin(){
-            return "pages/cliente/checkin";
-        }
-
-
-
+    public String checkin(){
+        return "pages/cliente/checkin";
+    }
 }

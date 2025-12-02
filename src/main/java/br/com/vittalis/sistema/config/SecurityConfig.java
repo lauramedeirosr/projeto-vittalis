@@ -1,6 +1,6 @@
 package br.com.vittalis.sistema.config;
 
-
+import br.com.vittalis.sistema.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,8 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import br.com.vittalis.sistema.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -31,32 +29,37 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                //.requestMatchers(new AntPathRequestMatcher("/**"))
-                //.requestMatchers(new AntPathRequestMatcher("/usuario/**"))
                 .requestMatchers(new AntPathRequestMatcher("/css/**"))
                 .requestMatchers(new AntPathRequestMatcher("/js/**"))
                 .requestMatchers(new AntPathRequestMatcher("/fonts/**"))
                 .requestMatchers(new AntPathRequestMatcher("/img/**"))
                 .requestMatchers(new AntPathRequestMatcher("/Source/**"));
-
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-
         httpSecurity
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/login/**", "/home/**", "/cliente/cadastro/**", "/cliente/salvar").permitAll()
-
-                        .requestMatchers("/administrador/**","/pacote/**","/navio/**").hasAnyAuthority("ADMINISTRADOR")
-
+                        // Endpoints públicos
+                        .requestMatchers("/", "/home/**", "/login/**", "/cliente/cadastro/**", "/cliente/salvar" ).permitAll()
+                        // Acesso do Administrador
+                        .requestMatchers("/administrador", "/administrador/**").hasAuthority("ADMINISTRADOR")
+                        .requestMatchers("/pacote/**", "/navio/**").hasAuthority("ADMINISTRADOR")
+                        // Qualquer outra requisição precisa de autenticação
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .successHandler(roleBasedAuthenticationSuccessHandler())
+                        .successHandler(new RedirectOnLoginSuccessHandler())
                         .permitAll()
+                )
+                .rememberMe(rememberMe -> rememberMe
+                        .key("vittalis-secret-key")
+                        .tokenValiditySeconds(86400)
+                )
+                .exceptionHandling((exceptions) -> exceptions
+                        .accessDeniedPage("/acesso-negado")
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
