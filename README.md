@@ -23,17 +23,13 @@ Camadas organizadas em serviços (lógica), repositórios (acesso a dados), enti
 - Java 17+
 - Spring Boot
 - Maven
-- JavaScript (SPA)
-- Node.js / npm ou yarn
-- PostgreSQL (recomendado)
-- Docker / Docker Compose (opcional)
-
+- JavaScript
+- MySQL
+  
 ## Estrutura básica
 
 - `src/main/java` — backend Java
-- `src/main/resources` — configurações
-- `src/test/java` — testes backend
-- `frontend/` — frontend JavaScript
+- `src/main/resources` — recursos
 
 ## Como rodar
 
@@ -45,12 +41,6 @@ Camadas organizadas em serviços (lógica), repositórios (acesso a dados), enti
    ```bash
    mvn clean package
    java -jar target/*.jar
-   ```
-3. Frontend:
-   ```bash
-   cd frontend
-   npm install
-   npm start
    ```
 
 ## Contribuição
