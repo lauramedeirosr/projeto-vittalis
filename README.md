@@ -1,3 +1,4 @@
+![Logo do Projeto](cruzeiro00.png)
 # Projeto Vittalis
 
 Vittalis é uma aplicação web monolítica que integra backend em Java (Spring Boot) e frontend em JavaScript, fornecendo uma plataforma integrada para gestão operacional de cruzeiros. O sistema automatiza processos como check-in e check-out, gerencia parcerias comerciais e oferece personalização da experiência do passageiro, aumentando a eficiência e satisfação.
