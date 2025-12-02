@@ -2,11 +2,8 @@
 
 # Projeto Vittalis
 
-Vittalis é uma aplicação web monolítica que integra backend em Java (Spring Boot) e frontend em JavaScript, fornecendo uma plataforma integrada para gestão operacional de cruzeiros. O sistema automatiza processos como check-in e check-out, gerencia parcerias comerciais e oferece personalização da experiência do passageiro, aumentando a eficiência e satisfação.
-
 ## Introdução
-
-O projeto visa superar os desafios de processos manuais e sistemas isolados no cruzeiro Vittalis, como filas e atrasos em embarque/desembarque, além de melhorar a gestão de serviços parceiros. Centraliza dados, automatiza operações e utiliza inteligência artificial para recomendações personalizadas, otimizando tanto a operação quanto a experiência dos clientes.
+O sistema automatiza processos como check-in e check-out, gerencia parcerias comerciais e oferece personalização da experiência do passageiro, aumentando a eficiência e satisfação. O projeto visa superar os desafios de processos manuais e sistemas isolados no cruzeiro Vittalis, como filas e atrasos em embarque/desembarque, além de melhorar a gestão de serviços parceiros. Centraliza dados, automatiza operações, otimizando tanto a operação quanto a experiência dos clientes.
 
 ## Arquitetura
 
@@ -23,17 +20,13 @@ Camadas organizadas em serviços (lógica), repositórios (acesso a dados), enti
 - Java 17+
 - Spring Boot
 - Maven
-- JavaScript (SPA)
-- Node.js / npm ou yarn
-- PostgreSQL (recomendado)
-- Docker / Docker Compose (opcional)
-
+- JavaScript
+- MySQL
+  
 ## Estrutura básica
 
 - `src/main/java` — backend Java
-- `src/main/resources` — configurações
-- `src/test/java` — testes backend
-- `frontend/` — frontend JavaScript
+- `src/main/resources` — recursos
 
 ## Como rodar
 
@@ -45,12 +38,6 @@ Camadas organizadas em serviços (lógica), repositórios (acesso a dados), enti
    ```bash
    mvn clean package
    java -jar target/*.jar
-   ```
-3. Frontend:
-   ```bash
-   cd frontend
-   npm install
-   npm start
    ```
 
 ## Contribuição
